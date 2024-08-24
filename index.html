@@ -2,43 +2,50 @@
 <html>
 
 <head>
-    <style>
-       html {
-  background-color: white;
-  height: 100%;
-  padding: 0;
-  overflow:hidden;
-}
+  <style>
+    html {
+      overflow: hidden;
+    }
 
-body {
- background-image: url("Brick_Room_Texture.png");
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  background-repeat: no-repeat;
-}
+    body {
+      position: absolute;
+      background-image: url("Brick_Room_Texture.png");
+      width: auto;
+      height: auto;
+      min-height: 100%;
+      min-width: 100%;
+      margin: 0;
+      background-repeat: no-repeat;
+    }
 
-#Menu {
-  min-width: 100%;
-  min-height: 100%;
-  position:absolute;
-    
-  
-   
-  
-}
-#Title{
-  position:absolute;
-  text-align: center;
-}
-     </style>
+    #Menu {
+      background-color: aliceblue;
+      margin-left: auto;
+      margin-right: auto;
+      min-width: 1000px;
+      min-height: 217px;
+      max-width:100% ;
+      max-height:100% ;
+      width: fit-content;
+      height: fit-content;
+      position: absolute;
+    }
+
+    #Title {
+      position: absolute;
+      left:auto;
+      text-align: center;
+    }
+  </style>
 </head>
-<body>
-<div id="Menu">
-<img id="Title"src="Game_title.png">
-</div>
-<div id="Start">
 
-</div>
+<body>
+  <div id="Menu">
+    <img id="Title" src="Game_title.png">
+  </div>
+  <div id="Start">
+
+  </div>
 </body>
+
 </html>
