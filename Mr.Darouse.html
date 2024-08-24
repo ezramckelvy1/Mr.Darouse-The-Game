@@ -4,10 +4,12 @@
 <head>
    <style>
 body{
-   background-color: aqua;
+   background-image: url("Brick_Room_Texture.png");
+   overflow: hidden;
 }
 p{
    background-color:transparent;
+   color:white;
 }
    </style>
 
@@ -15,8 +17,8 @@ p{
 
 <body>
    <title>Mr.Darouse Game</title>
-   <p>"Just Use W,A,S,D"</p>
-   <canvas id="canvas" width="3000" height="3000">
+  
+   <canvas id="canvas" width="1920" height="1080">
 
    </canvas>
    <img hidden id="source" hidden src="Darouse_Sprite.png">
@@ -26,159 +28,160 @@ p{
    var y = 0
    var way = 1
    var wayTwo = 1
-   var imgT = 1
+   var PlayerImg = 1
    var canvas = document.getElementById("canvas")
    var ctx = canvas.getContext("2d")
 
    const image = document.getElementById("source");
    var w = window.innerWidth;
    var h = window.innerHeight;
-   document.addEventListener("keydown", main)
-   setInterval(main, 50)
-   setInterval(main, 50)
+   document.addEventListener("keydown", MovePlayer)
+   setInterval(MovePlayer, 50)
+   setInterval(MovePlayer, 50)
+   setInterval(Border, 1)
    function up() {
       ctx.clearRect(0,0,3000,3000)
-      imT=1
-      if (imgT === 1) {
-         imgT = 2
+      ImT=1
+      if (PlayerImg === 1) {
+         PlayerImg = 2
          
-         ctx.drawImage(image, 64, 0, 64, 64, x, y, 300, 300)
+         ctx.drawImage(image, 100, 0, 100, 100, x, y, 300, 300)
       }
-      else if (imgT === 2) {
-         imgT = 3
+      else if (PlayerImg === 2) {
+         PlayerImg = 3
          
-         ctx.drawImage(image, 64, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 3) {
-         imgT = 4
+         ctx.drawImage(image, 100, 0, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 3) {
+         PlayerImg = 4
          
-         ctx.drawImage(image, 128, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 4) {
-         imgT = 5
+         ctx.drawImage(image, 200, 0, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 4) {
+         PlayerImg = 5
        
-         ctx.drawImage(image, 192, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 5) {
-         imgT = 6         
+         ctx.drawImage(image, 300, 0,  100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 5) {
+         PlayerImg = 6         
          
-         ctx.drawImage(image, 256, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 6) {
-         imgT = 7
+         ctx.drawImage(image, 400, 0,  100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 6) {
+         PlayerImg = 7
          
-         ctx.drawImage(image, 320, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 7) {
-         imgT = 8
+         ctx.drawImage(image, 500, 0, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 7) {
+         PlayerImg = 8
          
-         ctx.drawImage(image, 384, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 8) {
-         imgT= 9
+         ctx.drawImage(image, 600, 0,  100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 8) {
+         PlayerImg= 9
          
-         ctx.drawImage(image, 448, 0, 64, 64, x, y, 300, 300)
-      } else if (imgT === 9) {
-         imgT = 1
+         ctx.drawImage(image, 700, 0,  100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 9) {
+         PlayerImg = 1
          
-         ctx.drawImage(image, 512, 0, 64, 64, x, y, 300, 300)
+         ctx.drawImage(image, 800, 0,  100, 100, x, y, 300, 300)
       }
    }
    function left() {
       ctx.clearRect(0,0,3000,3000)
       imT=1
-      if (imgT === 1) {
-         imgT = 2
-         ctx.drawImage(image, 0, 64, 64, 64, x, y, 300, 300)
+      if (PlayerImg === 1) {
+         PlayerImg = 2
+         ctx.drawImage(image, 0, 100, 100, 100, x, y, 300, 300)
       }
-      else if (imgT === 2) {
-         imgT = 3
-         ctx.drawImage(image, 64, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 3) {
-         imgT = 4
-         ctx.drawImage(image, 128, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 4) 
+      else if (PlayerImg === 2) {
+         PlayerImg = 3
+         ctx.drawImage(image, 100, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 3) {
+         PlayerImg = 4
+         ctx.drawImage(image, 200, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 4) 
       {
-         imgT = 5
-         ctx.drawImage(image, 192, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 5) {
-         imgT = 6
-         ctx.drawImage(image, 256, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 6) {
-         imgT = 7
-         ctx.drawImage(image, 320, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 7) {
-         imgT = 8
-         ctx.drawImage(image, 384, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 8) {
-         imgT = 9
-         ctx.drawImage(image, 448, 64, 64, 64, x, y, 300, 300)
-      } else if (imgT === 9) {
-         imgT = 1
-         ctx.drawImage(image, 512, 64, 64, 64, x, y, 300, 300)
+         PlayerImg = 5
+         ctx.drawImage(image, 300, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 5) {
+         PlayerImg = 6
+         ctx.drawImage(image, 400, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 6) {
+         PlayerImg = 7
+         ctx.drawImage(image, 500, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 7) {
+         PlayerImg = 8
+         ctx.drawImage(image, 600, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 8) {
+         PlayerImg = 9
+         ctx.drawImage(image, 700, 100, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 9) {
+         PlayerImg = 1
+         ctx.drawImage(image, 800, 100, 100, 100, x, y, 300, 300)
       }
    }
    function down() {
       ctx.clearRect(0,0,3000,3000)
       imT=1
-      if (imgT === 1) {
-         imgT = 2
-         ctx.drawImage(image, 0, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 2) {
-         imgT = 3
-         ctx.drawImage(image, 64, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 3) {
-         imgT = 4
-         ctx.drawImage(image, 128, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 4) {
-         imgT = 5
-         ctx.drawImage(image, 192, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 5) {
-         imgT = 6
-         ctx.drawImage(image, 256, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 6) {
-         imgT = 7
-         ctx.drawImage(image, 320, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 7) {
-         imgT = 8
-         ctx.drawImage(image, 384, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 8) {
-         imgT = 9
-         ctx.drawImage(image, 448, 128, 64, 64, x, y, 300, 300)
-      } else if (imgT === 9) {
-         imgT = 1
-         ctx.drawImage(image, 512, 128, 64, 64, x, y, 300, 300)
+      if (PlayerImg === 1) {
+         PlayerImg = 2
+         ctx.drawImage(image, 0, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 2) {
+         PlayerImg = 3
+         ctx.drawImage(image, 100, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 3) {
+         PlayerImg = 4
+         ctx.drawImage(image, 200, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 4) {
+         PlayerImg = 5
+         ctx.drawImage(image, 300, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 5) {
+         PlayerImg = 6
+         ctx.drawImage(image, 400, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 6) {
+         PlayerImg = 7
+         ctx.drawImage(image, 500, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 7) {
+         PlayerImg = 8
+         ctx.drawImage(image, 600, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 8) {
+         PlayerImg = 9
+         ctx.drawImage(image, 700, 200, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 9) {
+         PlayerImg = 1
+         ctx.drawImage(image, 800, 200, 100, 100, x, y, 300, 300)
       }
    }
    function right() {
       ctx.clearRect(0,0,3000,3000)
-imT=1
-      if (imgT === 1) {
-         imgT = 2
-         ctx.drawImage(image, 0, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 2) {
-         imgT = 3
-         ctx.drawImage(image, 64, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 3) {
-         imgT = 4
-         ctx.drawImage(image, 128, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 4) {
-         imgT = 5
-         ctx.drawImage(image, 192, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 5) {
-         imgT = 6
-         ctx.drawImage(image, 256, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 6) {
-         imgT = 7
-         ctx.drawImage(image, 320, 192, 64, 64, x, y, 300, 300)
+         imT=1
+      if (PlayerImg === 1) {
+         PlayerImg = 2
+         ctx.drawImage(image, 0, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 2) {
+         PlayerImg = 3
+         ctx.drawImage(image, 100, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 3) {
+         PlayerImg = 4
+         ctx.drawImage(image, 200, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 4) {
+         PlayerImg = 5
+         ctx.drawImage(image, 300, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 5) {
+         PlayerImg = 6
+         ctx.drawImage(image, 400, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 6) {
+         PlayerImg = 7
+         ctx.drawImage(image, 500, 300, 100, 100, x, y, 300, 300)
       }
-      else if (imgT === 7) {
-         imgT = 8
-         ctx.drawImage(image, 384, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT === 8) {
-         imgT = 9
-         ctx.drawImage(image, 448, 192, 64, 64, x, y, 300, 300)
-      } else if (imgT ===9) {
-         imgT = 1
-         ctx.drawImage(image, 512, 192, 64, 64, x, y, 300, 300)
+      else if (PlayerImg === 7) {
+         PlayerImg = 8
+         ctx.drawImage(image, 600, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg === 8) {
+         PlayerImg = 9
+         ctx.drawImage(image, 700, 300, 100, 100, x, y, 300, 300)
+      } else if (PlayerImg ===9) {
+         PlayerImg = 1
+         ctx.drawImage(image, 800, 300, 100, 100, x, y, 300, 300)
       }
       
    }
-   function main(e) {
+   function MovePlayer(e) {
 
       
       if (e.key === "w") {
@@ -198,10 +201,23 @@ imT=1
          x = x + 15
          right()
       }
-      
+       
 
 
 
+   }
+   function Border(){
+      if(x>=920){
+         x=x-15
+       }
+       if(x<0){
+         x=-15
+       }
+       if(y>1080){
+         y=y-15
+       }if(y<=0){
+         y=y+15
+       }
    }
 
 
