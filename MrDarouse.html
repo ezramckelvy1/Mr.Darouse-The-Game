@@ -12,7 +12,7 @@ p{
    background-color:transparent;
    color:white;
 }
-div{
+#Slime{
    background-color: aqua;
    width:100;
    height:100;
@@ -29,8 +29,8 @@ div{
    <title>Mr.Darouse Game</title>
   
    <canvas id="canvas" width="1920" height="1080">
-      <div></div>
-   <img hidden id="source" hidden src="Darouse_Sprite.png">
+      <div id="Slime"></div>
+   <img id="source" hidden src="Darouse_Sprite.png">
 
    </canvas>
    
@@ -53,44 +53,44 @@ div{
    
    function up() {
       ctx.clearRect(0,0,3000,3000)
-      ImT=1
+      imT=1
       if (PlayerImg === 1) {
          PlayerImg = 2
          
-         ctx.drawImage(image, 100, 0, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 64, 0, 64, 64, x, y, 200, 200)
       }
       else if (PlayerImg === 2) {
          PlayerImg = 3
          
-         ctx.drawImage(image, 100, 0, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 64, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 3) {
          PlayerImg = 4
          
-         ctx.drawImage(image, 200, 0, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 128, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 4) {
          PlayerImg = 5
        
-         ctx.drawImage(image, 300, 0,  100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 192, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 5) {
          PlayerImg = 6         
          
-         ctx.drawImage(image, 400, 0,  100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 256, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 6) {
          PlayerImg = 7
          
-         ctx.drawImage(image, 500, 0, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 320, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 7) {
          PlayerImg = 8
          
-         ctx.drawImage(image, 600, 0,  100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 384, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 8) {
          PlayerImg= 9
          
-         ctx.drawImage(image, 700, 0,  100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 448, 0, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 9) {
          PlayerImg = 1
          
-         ctx.drawImage(image, 800, 0,  100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 512, 0, 64, 64, x, y, 200, 200)
       }
    }
    function left() {
@@ -98,33 +98,33 @@ div{
       imT=1
       if (PlayerImg === 1) {
          PlayerImg = 2
-         ctx.drawImage(image, 0, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 0, 64, 64, 64, x, y, 200, 200)
       }
       else if (PlayerImg === 2) {
          PlayerImg = 3
-         ctx.drawImage(image, 100, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 64, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 3) {
          PlayerImg = 4
-         ctx.drawImage(image, 200, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 128, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 4) 
       {
          PlayerImg = 5
-         ctx.drawImage(image, 300, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 192, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 5) {
          PlayerImg = 6
-         ctx.drawImage(image, 400, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 256, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 6) {
          PlayerImg = 7
-         ctx.drawImage(image, 500, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 320, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 7) {
          PlayerImg = 8
-         ctx.drawImage(image, 600, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 384, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 8) {
          PlayerImg = 9
-         ctx.drawImage(image, 700, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 448, 64, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 9) {
          PlayerImg = 1
-         ctx.drawImage(image, 800, 100, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 512, 64, 64, 64, x, y, 200, 200)
       }
    }
    function down() {
@@ -132,64 +132,64 @@ div{
       imT=1
       if (PlayerImg === 1) {
          PlayerImg = 2
-         ctx.drawImage(image, 0, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 0, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 2) {
          PlayerImg = 3
-         ctx.drawImage(image, 100, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 64, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 3) {
          PlayerImg = 4
-         ctx.drawImage(image, 200, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 128, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 4) {
          PlayerImg = 5
-         ctx.drawImage(image, 300, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 192, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 5) {
          PlayerImg = 6
-         ctx.drawImage(image, 400, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 256, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 6) {
          PlayerImg = 7
-         ctx.drawImage(image, 500, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 320, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 7) {
          PlayerImg = 8
-         ctx.drawImage(image, 600, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 384, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 8) {
          PlayerImg = 9
-         ctx.drawImage(image, 700, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 448, 128, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 9) {
          PlayerImg = 1
-         ctx.drawImage(image, 800, 200, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 512, 128, 64, 64, x, y, 200, 200)
       }
    }
    function right() {
       ctx.clearRect(0,0,3000,3000)
-         imT=1
+imT=1
       if (PlayerImg === 1) {
          PlayerImg = 2
-         ctx.drawImage(image, 0, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 0, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 2) {
          PlayerImg = 3
-         ctx.drawImage(image, 100, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 64, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 3) {
          PlayerImg = 4
-         ctx.drawImage(image, 200, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 128, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 4) {
          PlayerImg = 5
-         ctx.drawImage(image, 300, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 192, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 5) {
          PlayerImg = 6
-         ctx.drawImage(image, 400, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 256, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 6) {
          PlayerImg = 7
-         ctx.drawImage(image, 500, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 320, 192, 64, 64, x, y, 200, 200)
       }
       else if (PlayerImg === 7) {
          PlayerImg = 8
-         ctx.drawImage(image, 600, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 384, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg === 8) {
          PlayerImg = 9
-         ctx.drawImage(image, 700, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 448, 192, 64, 64, x, y, 200, 200)
       } else if (PlayerImg ===9) {
          PlayerImg = 1
-         ctx.drawImage(image, 800, 300, 100, 100, x, y, 300, 300)
+         ctx.drawImage(image, 512, 192, 64, 64, x, y, 200, 200)
       }
       
    }
