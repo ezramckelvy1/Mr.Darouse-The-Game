@@ -31,7 +31,6 @@ p{
    var PlayerImg = 1
    var canvas = document.getElementById("canvas")
    var ctx = canvas.getContext("2d")
-
    const image = document.getElementById("source");
    var w = window.innerWidth;
    var h = window.innerHeight;
@@ -39,6 +38,7 @@ p{
    setInterval(MovePlayer, 50)
    setInterval(MovePlayer, 50)
    setInterval(Border, 1)
+   
    function up() {
       ctx.clearRect(0,0,3000,3000)
       ImT=1
@@ -181,6 +181,7 @@ p{
       }
       
    }
+  
    function MovePlayer(e) {
 
       
