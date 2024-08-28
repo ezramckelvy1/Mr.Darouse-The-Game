@@ -21,11 +21,14 @@
       position: absolute;
       left: 25vh;
       top: 20vh;
+      -webkit-user-drag: none;
+      user-select: none;
 
 
     }
 
     #Start {
+      
       background-image: url("RedBrick_Button.png");
       width: 500px;
       height: 125px;
@@ -35,12 +38,20 @@
       text-align: center;
       color: black;
       font-size: 100px;
+      
     }
 
 
     a:link,a:visited , a:active,a:hover  {
+      user-select: none;
+      -webkit-user-drag:none;
       color: black;
-      text-decoration: none
+      text-decoration: none;
+      position:absolute;
+      left:0;
+      height:125px;
+      width:500px;
+     
     }
 
 
