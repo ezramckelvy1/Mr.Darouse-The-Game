@@ -12,6 +12,15 @@ p{
    background-color:transparent;
    color:white;
 }
+div{
+   background-color: aqua;
+   width:100;
+   height:100;
+   position: absolute;
+   left:0;
+   top:0;
+}
+
    </style>
 
 </head>
@@ -20,9 +29,11 @@ p{
    <title>Mr.Darouse Game</title>
   
    <canvas id="canvas" width="1920" height="1080">
+      <div></div>
+   <img hidden id="source" hidden src="Darouse_Sprite.png">
 
    </canvas>
-   <img hidden id="source" hidden src="Darouse_Sprite.png">
+   
 </body>
 <script>
    var x = 0
