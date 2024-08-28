@@ -38,20 +38,7 @@
       text-align: center;
       color: black;
       font-size: 100px;
-      
-    }
-
-
-    a:link,a:visited , a:active,a:hover  {
-      user-select: none;
-      -webkit-user-drag:none;
-      color: black;
-      text-decoration: none;
-      position:absolute;
-      left:0;
-      height:125px;
-      width:500px;
-     
+      cursor: url;
     }
 
 
@@ -61,9 +48,13 @@
 <body>
   <img  style="cursor:url('Pointer_Cursor.png'),auto" id="Title" src="Game_title.png">
 
-  <div  style="cursor:url('Finger_Cursor.png'),auto"id=Start>
-    <a    style="cursor:url('Finger_Cursor.png'),auto"href="MrDarouse.html">Start</a>
-  </div>
+  <img style="cursor:url('Finger_Cursor.png'),auto" onclick="Link()" id="Start" src="Start_Button.png">
+</div>
 </body>
+<script>
+ function Link(){
+  location.href="MrDarouse.html";
+ }
+</script>
 
 </html>
