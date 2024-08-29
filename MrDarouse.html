@@ -3,13 +3,21 @@
 
 <head>
    <style>
-      #canvas{
-         position: absolute;
-         background-image: url("Brick_Room_Texture.png");
-         overflow: hidden;
-         left:0px;
-         top:0px;
-      }
+      body {
+  cursor:url("Pointer_Cursor.png"),auto;
+
+      width: 100%;
+      height: 100%;
+      margin: 0%;
+      background-image: url("Brick_Room_Texture.png");
+      background-repeat: no-repeat;
+      max-width: 100%;
+      max-height: 100%;
+      
+
+    }
+    
+     
 
       #Slime {
          background-color: aqua;
@@ -26,7 +34,7 @@
 <body>
    <title>Mr.Darouse The Game</title>
    <div id="Slime"></div>
-   <canvas id="canvas" width="1920" height="1080">
+   <canvas id="canvas" width="1366" height="768">
        <img id="PlayerSprite" hidden src="Darouse_Sprite.png">
        
    </canvas>
@@ -178,16 +186,16 @@
    function MovePlayer(e) {
      
       if (e.key === "a") {
-         SpriteArrayx[0] = SpriteArrayx[0] - 15
+         SpriteArrayx[0] = SpriteArrayx[0] - 10
          left()
       } if (e.key === "s") {
-         SpriteArrayy[0] = SpriteArrayy[0] + 15
+         SpriteArrayy[0] = SpriteArrayy[0] + 10
          down()
       } if (e.key === "d") {
-         SpriteArrayx[0] = SpriteArrayx[0] + 15
+         SpriteArrayx[0] = SpriteArrayx[0] + 10
          right()
       } if (e.key === "w") {
-         SpriteArrayy[0] = SpriteArrayy[0] - 15
+         SpriteArrayy[0] = SpriteArrayy[0] - 10
          up()
       }
    }
@@ -195,17 +203,17 @@
    //Border For All//
    function Border() {
 
-      for (var i = 0; i <SpriteArrayx.length ; i++) {
-         if (SpriteArrayx[i] >= 920) {
-            SpriteArrayx[i] = SpriteArrayx[i] - 15
+      for (var i = 0; i <=SpriteArrayx.length ; i++) {
+         if (SpriteArrayx[i] >= 1166) {
+            SpriteArrayx[i] = SpriteArrayx[i] - 10
          }
-         if (SpriteArrayx[i] < 0) {
-            SpriteArrayx[i] = -15
+         if (SpriteArrayx[i] < -50) {
+            SpriteArrayx[i] = SpriteArrayx[i]+10
          }
-         if (SpriteArrayy[i] > 1080) {
-            SpriteArrayy[i] = SpriteArrayy[i] - 15
-         } if (SpriteArrayy[i] <= 0) {
-            SpriteArrayy[i] = SpriteArrayy[i] + 15
+         if (SpriteArrayy[i] > 548) {
+            SpriteArrayy[i] = SpriteArrayy[i] - 10
+         } if (SpriteArrayy[i] < -50) {
+            SpriteArrayy[i] = SpriteArrayy[i]+10
          }
       }
    }
