@@ -13,6 +13,7 @@
       background-repeat: no-repeat;
       max-width: 100%;
       max-height: 100%;
+      overflow: hidden;
       
 
     }
@@ -21,8 +22,8 @@
 
       #Slime {
          background-color: aqua;
-         width: 100px;
-         height: 100px;
+         width: 50px;
+         height: 50px;
          position: absolute;
          left: 0px;
          top: 0px;
@@ -42,13 +43,17 @@
 <script>
    var Playerx = 0
    var Playery = 0
+   var Slimex = 0
+   var Slimey = 0
    var PlayerFrame =[1,1,1,1]
-   var SpriteArrayx = [Playerx]
-   var SpriteArrayy = [Playery]
+   var SpriteArrayx = [Playerx,Slimex]
+   var SpriteArrayy = [Playery,Slimey]
    var canvas = document.getElementById("canvas")
    var ctx = canvas.getContext("2d")
    var Player = document.getElementById("PlayerSprite");
+   
    document.addEventListener("keydown", MovePlayer)
+   setInterval(Slimemove,1)
    setInterval(Border, 1)
    //Player Sprite//
    function up() {
@@ -199,6 +204,33 @@
          up()
       }
    }
+function Slimemove(){
+   var SlimeWay =Math.floor(Math.random() * 5)
+   if(Slimeway===1){
+      //Slime Up//
+      SpriteArrayy[1]=SpriteArrayy[1]-10
+   }else if(Slimeway===2){
+      //Slime Down//
+      SpriteArrayy[1]=SpriteArrayy[1]+10
+   }else if(Slimeway===3){
+      //Slime Right//
+      SpriteArrayx[1]=SpriteArrayx[1]+10
+   }else if(Slimeway===4){
+   //Slime Left//
+   SpriteArrayx[1]=SpriteArrayx[1]-10
+   }
+
+document.getElementById("Slime").style.left=SpriteArrayx[1]+"px"
+document.getElementById("Slime").style.right=SpriteArrayy[1]+"px"
+
+}
+
+
+
+
+
+
+
 
    //Border For All//
    function Border() {
