@@ -34,183 +34,178 @@
 <script>
    var Playerx = 0
    var Playery = 0
-   var PlayerFrame = 1
+   var PlayerFrame =[1,1,1,1]
+   var SpriteArrayx = [Playerx]
+   var SpriteArrayy = [Playery]
    var canvas = document.getElementById("canvas")
    var ctx = canvas.getContext("2d")
    var Player = document.getElementById("PlayerSprite");
    document.addEventListener("keydown", MovePlayer)
-   setInterval(MovePlayer, 50)
    setInterval(Border, 1)
    //Player Sprite//
    function up() {
       ctx.clearRect(0, 0, 3000, 3000)
-      if (PlayerFrame === 1) {
-         PlayerFrame = 2
-
-         ctx.drawImage(Player, 0, 0, 64, 64, Playerx, Playery, 200, 200)
+      if (PlayerFrame[0] === 1) {
+         PlayerFrame[0]= 2
+         ctx.drawImage(Player, 0, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
-      else if (PlayerFrame === 2) {
-         PlayerImgFrame = 3
+      else if (PlayerFrame[0] === 2) {
+         PlayerFrame[0] = 3
+         ctx.drawImage(Player, 64, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 3) {
+         PlayerFrame[0] = 4
+         ctx.drawImage(Player, 128, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 4) {
+         PlayerFrame[0] = 5
+         ctx.drawImage(Player, 192, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 5) {
+         PlayerFrame[0] = 6
+         ctx.drawImage(Player, 256, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 6) {
+         PlayerFrame[0] = 7
 
-         ctx.drawImage(Player, 64, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 3) {
-         PlayerFrame = 4
+         ctx.drawImage(Player, 320, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 7) {
+         PlayerFrame[0]  = 8
 
-         ctx.drawImage(Player, 128, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 4) {
-         PlayerFrame = 5
+         ctx.drawImage(Player, 384, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 8) {
+         PlayerFrame[0] = 9
 
-         ctx.drawImage(Player, 192, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 5) {
-         PlayerFrame = 6
-
-         ctx.drawImage(Player, 256, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 6) {
-         PlayerFrame = 7
-
-         ctx.drawImage(Player, 320, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 7) {
-         PlayerFrame = 8
-
-         ctx.drawImage(Player, 384, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 8) {
-         PlayerFrame = 9
-
-         ctx.drawImage(Player, 448, 0, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 9) {
-         PlayerFrame = 1
-         ctx.drawImage(Player, 512, 0, 64, 64, Playerx, Playery, 200, 200)
+         ctx.drawImage(Player, 448, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[0] === 9) {
+         PlayerFrame[0] = 1
+         ctx.drawImage(Player, 512, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
    }
    function left() {
       ctx.clearRect(0, 0, 3000, 3000)
     
-      if (PlayerFrame === 1) {
-         PlayerFrame = 2
-         ctx.drawImage(Player, 0, 64, 64, 64, Playerx, Playery, 200, 200)
+      if (PlayerFrame[1] === 1) {
+         PlayerFrame[1] = 2
+         ctx.drawImage(Player, 0, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
-      else if (PlayerFrame === 2) {
-         PlayerFrame = 3
-         ctx.drawImage(Player, 64, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 3) {
-         PlayerFrame = 4
-         ctx.drawImage(Player, 128, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 4) {
-         PlayerFrame = 5
-         ctx.drawImage(Player, 192, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 5) {
-         PlayerFrame = 6
-         ctx.drawImage(Player, 256, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 6) {
-         PlayerFrame = 7
-         ctx.drawImage(Player, 320, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 7) {
-         PlayerFrame = 8
-         ctx.drawImage(Player, 384, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 8) {
-         PlayerFrame = 9
-         ctx.drawImage(Player, 448, 64, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 9) {
-         PlayerFrame = 1
-         ctx.drawImage(Player, 512, 64, 64, 64, Playerx, Playery, 200, 200)
+      else if (PlayerFrame[1] === 2) {
+         PlayerFrame[1] = 3
+         ctx.drawImage(Player, 64, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 3) {
+         PlayerFrame[1] = 4
+         ctx.drawImage(Player, 128, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 4) {
+         PlayerFrame[1] = 5
+         ctx.drawImage(Player, 192, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 5) {
+         PlayerFrame[1] = 6
+         ctx.drawImage(Player, 256, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 6) {
+         PlayerFrame[1] = 7
+         ctx.drawImage(Player, 320, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 7) {
+         PlayerFrame[1] = 8
+         ctx.drawImage(Player, 384, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 8) {
+         PlayerFrame[1] = 9
+         ctx.drawImage(Player, 448, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[1] === 9) {
+         PlayerFrame[1] = 1
+         ctx.drawImage(Player, 512, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
    }
    function down() {
       ctx.clearRect(0, 0, 3000, 3000)
-      if (PlayerFrame === 1) {
-         PlayerFrame = 2
-         ctx.drawImage(Player, 0, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 2) {
-         PlayerFrame = 3
-         ctx.drawImage(Player, 64, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 3) {
-         PlayerFrame = 4
-         ctx.drawImage(Player, 128, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 4) {
-         PlayerFrame = 5
-         ctx.drawImage(Player, 192, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 5) {
-         PlayerFrame = 6
-         ctx.drawImage(Player, 256, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 6) {
-         PlayerFrame = 7
-         ctx.drawImage(Player, 320, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 7) {
-         PlayerFrame = 8
-         ctx.drawImage(Player, 384, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 8) {
-         PlayerFrame = 9
-         ctx.drawImage(Player, 448, 128, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 9) {
-         PlayerFrame = 1
-         ctx.drawImage(Player, 512, 128, 64, 64, Playerx, Playery, 200, 200)
+      if (PlayerFrame[2] === 1) {
+         PlayerFrame[2] = 2
+         ctx.drawImage(Player, 0, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 2) {
+         PlayerFrame[2] = 3
+         ctx.drawImage(Player, 64, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 3) {
+         PlayerFrame[2] = 4
+         ctx.drawImage(Player, 128, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 4) {
+         PlayerFrame[2] = 5
+         ctx.drawImage(Player, 192, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 5) {
+         PlayerFrame[2] = 6
+         ctx.drawImage(Player, 256, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 6) {
+         PlayerFrame[2] = 7
+         ctx.drawImage(Player, 320, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 7) {
+         PlayerFrame[2] = 8
+         ctx.drawImage(Player, 384, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 8) {
+         PlayerFrame[2] = 9
+         ctx.drawImage(Player, 448, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[2] === 9) {
+         PlayerFrame[2] = 1
+         ctx.drawImage(Player, 512, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
    }
    function right() {
       ctx.clearRect(0, 0, 3000, 3000)
-      if (PlayerFrame === 1) {
-         PlayerFrame = 2
-         ctx.drawImage(Player, 0, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 2) {
-         PlayerFrame = 3
-         ctx.drawImage(Player, 64, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 3) {
-         PlayerFrame = 4
-         ctx.drawImage(Player, 128, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 4) {
-         PlayerFrame = 5
-         ctx.drawImage(Player, 192, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 5) {
-         PlayerFrame = 6
-         ctx.drawImage(Player, 256, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 6) {
-         PlayerFrame = 7
-         ctx.drawImage(Player, 320, 192, 64, 64, Playerx, Playery, 200, 200)
+      if (PlayerFrame[3] === 1) {
+         PlayerFrame[3] = 2
+         ctx.drawImage(Player, 0, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 2) {
+         PlayerFrame[3] = 3
+         ctx.drawImage(Player, 64, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 3) {
+         PlayerFrame[3] = 4
+         ctx.drawImage(Player, 128, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 4) {
+         PlayerFrame[3] = 5
+         ctx.drawImage(Player, 192, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 5) {
+         PlayerFrame[3] = 6
+         ctx.drawImage(Player, 256, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 6) {
+         PlayerFrame[3] = 7
+         ctx.drawImage(Player, 320, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
-      else if (PlayerFrame === 7) {
-         PlayerFrame = 8
-         ctx.drawImage(Player, 384, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 8) {
-         PlayerFrame = 9
-         ctx.drawImage(Player, 448, 192, 64, 64, Playerx, Playery, 200, 200)
-      } else if (PlayerFrame === 9) {
-         PlayerFrame = 1
-         ctx.drawImage(Player, 512, 192, 64, 64, Playerx, Playery, 200, 200)
+      else if (PlayerFrame[3] === 7) {
+         PlayerFrame[3] = 8
+         ctx.drawImage(Player, 384, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 8) {
+         PlayerFrame[3] = 9
+         ctx.drawImage(Player, 448, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
+      } else if (PlayerFrame[3] === 9) {
+         PlayerFrame[3] = 1
+         ctx.drawImage(Player, 512, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], 200, 200)
       }
    }
 
    function MovePlayer(e) {
-      if (e.key === "w") {
-         Playery = Playery - 15
-         up()
-      }
+     
       if (e.key === "a") {
-         Playerx = Playerx - 15
+         SpriteArrayx[0] = SpriteArrayx[0] - 15
          left()
       } if (e.key === "s") {
-         Playery = Playery + 15
+         SpriteArrayy[0] = SpriteArrayy[0] + 15
          down()
       } if (e.key === "d") {
-         Playerx = Playerx + 15
+         SpriteArrayx[0] = SpriteArrayx[0] + 15
          right()
+      } if (e.key === "w") {
+         SpriteArrayy[0] = SpriteArrayy[0] - 15
+         up()
       }
    }
 
    //Border For All//
    function Border() {
-      var BorderArrayx = [Playerx]
-      var BorderArrayy = [Playery]
-      for (var i = 0; i < BorderArrayx.length + 1; i++) {
-         if (BorderArrayx[i] >= 920) {
-            BorderArrayx[i] = BorderArrayx[i] - 15
+
+      for (var i = 0; i <SpriteArrayx.length ; i++) {
+         if (SpriteArrayx[i] >= 920) {
+            SpriteArrayx[i] = SpriteArrayx[i] - 15
          }
-         if (BorderArrayx[i] < 0) {
-            BorderArrayx[i] = -15
+         if (SpriteArrayx[i] < 0) {
+            SpriteArrayx[i] = -15
          }
-         if (BorderArrayy[i] > 1080) {
-            BorderArrayy[i] = BorderArrayy[i] - 15
-         } if (BorderArrayy[i] <= 0) {
-            BorderArrayy[i] = BorderArrayy[i] + 15
+         if (SpriteArrayy[i] > 1080) {
+            SpriteArrayy[i] = SpriteArrayy[i] - 15
+         } if (SpriteArrayy[i] <= 0) {
+            SpriteArrayy[i] = SpriteArrayy[i] + 15
          }
       }
    }
