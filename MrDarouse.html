@@ -40,6 +40,7 @@
    </canvas>
 </body>
 <script>
+   var SlimeInt
    var SlimeWay = 4
    var Playerx = 0
    var Playery = 0
@@ -53,9 +54,9 @@
    var Player = document.getElementById("PlayerSprite");
    
    document.addEventListener("keydown", MovePlayer)
-   setInterval(Math.floor(Math.random() * 4)+1,100)
    
-   setInterval(Slimemove,1)
+   
+   setInterval(Slimemove,1000)
    Slimemove()
    setInterval(Border,1)
    //Player Sprite//
@@ -210,7 +211,9 @@
    
 function Slimemove(){
    SlimeWay=Math.floor(Math.random() * 4)+1
-   setInterval(SlimePath,100)
+SlimeWay!=SlimeWay
+clearInterval(SlimeInt)
+SlimeInt=setInterval(SlimePath,1)
  function SlimePath(){   
    if(SlimeWay===1){
       //Slime Up//
