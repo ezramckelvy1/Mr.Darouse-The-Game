@@ -25,8 +25,7 @@
          width: 50px;
          height: 50px;
          position: absolute;
-         left: 0px;
-         top: 0px;
+         
       }
    </style>
 
@@ -41,10 +40,11 @@
    </canvas>
 </body>
 <script>
+   var SlimeWay = 4
    var Playerx = 0
    var Playery = 0
-   var Slimex = 0
-   var Slimey = 0
+   var Slimex = Math.floor(Math.random() * 1316)+1;
+   var Slimey = Math.floor(Math.random() * 718)+1;
    var PlayerFrame =[1,1,1,1]
    var SpriteArrayx = [Playerx,Slimex]
    var SpriteArrayy = [Playery,Slimey]
@@ -53,8 +53,11 @@
    var Player = document.getElementById("PlayerSprite");
    
    document.addEventListener("keydown", MovePlayer)
+   setInterval(Math.floor(Math.random() * 4)+1,100)
+   
    setInterval(Slimemove,1)
-   setInterval(Border, 1)
+   Slimemove()
+   setInterval(Border,1)
    //Player Sprite//
    function up() {
       ctx.clearRect(0, 0, 3000, 3000)
@@ -204,24 +207,44 @@
          up()
       }
    }
+   
 function Slimemove(){
-   var SlimeWay =Math.floor(Math.random() * 5)
-   if(Slimeway===1){
+   SlimeWay=Math.floor(Math.random() * 4)+1
+   setInterval(SlimePath,100)
+ function SlimePath(){   
+   if(SlimeWay===1){
       //Slime Up//
-      SpriteArrayy[1]=SpriteArrayy[1]-10
-   }else if(Slimeway===2){
-      //Slime Down//
-      SpriteArrayy[1]=SpriteArrayy[1]+10
-   }else if(Slimeway===3){
-      //Slime Right//
-      SpriteArrayx[1]=SpriteArrayx[1]+10
-   }else if(Slimeway===4){
-   //Slime Left//
-   SpriteArrayx[1]=SpriteArrayx[1]-10
-   }
+      SpriteArrayy[1]=SpriteArrayy[1]-1
 
+      if(SpriteArrayy[1]<=0){
+         SpriteArrayy[1]=SpriteArrayy[1]+1
+      }
+      
+   }else if(SlimeWay===2){
+      //Slime Down//
+      SpriteArrayy[1]=SpriteArrayy[1]+1
+      if(SpriteArrayy[1]>=718){
+      SpriteArrayy[1] = SpriteArrayy[1] - 1
+   }
+   }else if(SlimeWay===3){
+      //Slime Right//
+      SpriteArrayx[1]=SpriteArrayx[1]+1
+      if(SpriteArrayx[1]>=1316){
+      SpriteArrayx[1] = SpriteArrayx[1] - 1
+   }
+   }else if(SlimeWay===4){
+   //Slime Left//
+   SpriteArrayx[1]=SpriteArrayx[1]-1
+   if(SpriteArrayx[1]<=0){
+         SpriteArrayx[1]=SpriteArrayx[1]+1
+      }
+  
+   }
+console.log(SlimeWay)
 document.getElementById("Slime").style.left=SpriteArrayx[1]+"px"
-document.getElementById("Slime").style.right=SpriteArrayy[1]+"px"
+document.getElementById("Slime").style.top=SpriteArrayy[1]+"px"
+
+}
 
 }
 
@@ -235,9 +258,10 @@ document.getElementById("Slime").style.right=SpriteArrayy[1]+"px"
    //Border For All//
    function Border() {
 
-      for (var i = 0; i <=SpriteArrayx.length ; i++) {
+      for (var i = 0; i <=0 ; i++) {
          if (SpriteArrayx[i] >= 1166) {
             SpriteArrayx[i] = SpriteArrayx[i] - 10
+
          }
          if (SpriteArrayx[i] < -50) {
             SpriteArrayx[i] = SpriteArrayx[i]+10
