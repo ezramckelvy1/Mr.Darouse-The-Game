@@ -28,12 +28,11 @@
          top: 0px;
          z-index: 10;
          position: absolute;
-   
+
          border-radius: 50%;
          width: 500px;
          height: 500px;
       }
-      
    </style>
 
 </head>
@@ -108,7 +107,7 @@
    setInterval(Border, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
-   setInterval(PlayerHit, 1)
+   setInterval(PlayerSlimeCollision, 1)
    //functions//
    //lights positions//
 
@@ -144,7 +143,7 @@
    }
    //Player Sprite//
    function PlayerUp() {
-      ptx.clearRect(SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0] + 10)
+      ptx.clearRect(0,0,3000,3000)
       if (PlayerFrame[0] === 1) {
          PlayerFrame[0] = 2
          ptx.drawImage(Player, 0, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
@@ -183,7 +182,7 @@
       }
    }
    function PlayerLeft() {
-      ptx.clearRect(SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      ptx.clearRect(0,0,3000,3000)
       if (PlayerFrame[1] === 1) {
          PlayerFrame[1] = 2
          ptx.drawImage(Player, 0, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
@@ -222,7 +221,7 @@
       }
    }
    function PlayerDown() {
-      ptx.clearRect(SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      ptx.clearRect(0,0,3000,3000)
       if (PlayerFrame[2] === 1) {
          PlayerFrame[2] = 2
          ptx.drawImage(Player, 0, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
@@ -261,7 +260,7 @@
       }
    }
    function PlayerRight() {
-      ptx.clearRect(SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      ptx.clearRect(0,0,3000,3000)
       if (PlayerFrame[3] === 1) {
          PlayerFrame[3] = 2
          ptx.drawImage(Player, 0, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
@@ -321,7 +320,7 @@
    }
    //Slime Sprite//
    function SlimeDown() {
-      stx.clearRect(SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+      stx.clearRect(0,0,3000,3000)
       if (SlimeFrame === 1) {
          SlimeFrame = 2
          stx.drawImage(Slime, 0, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
@@ -356,7 +355,7 @@
       }
    }
    function SlimeUp() {
-      stx.clearRect(SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1] + 1)
+      stx.clearRect(0,0,3000,3000)
       if (SlimeFrame === 1) {
          SlimeFrame = 2
          stx.drawImage(Slime, 0, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
@@ -391,7 +390,7 @@
       }
    }
    function SlimeRight() {
-      stx.clearRect(SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+      stx.clearRect(0,0,3000,3000)
       if (SlimeFrame === 1) {
          SlimeFrame = 2
          stx.drawImage(Slime, 0, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
@@ -426,7 +425,7 @@
       }
    }
    function SlimeLeft() {
-      stx.clearRect(SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+      stx.clearRect(0,0,3000,3000)
       if (SlimeFrame === 1) {
          SlimeFrame = 2
          stx.drawImage(Slime, 0, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
@@ -532,11 +531,26 @@
          }
       }
    }
-   
-   function PlayerHit(){
-      
+
+      function PlayerSlimeCollision() {
+         //corners of the player sprite
+         var PlayerTopLeftCorner = {x: SpriteArrayx[0],y: SpriteArrayy[0]};
+         var PlayerTopRightCorner = SpriteArrayx[0] + SpriteArrayWidth[0]
+         var PlayerBottomLeftCorner =  SpriteArrayy[0] + SpriteArrayHeight[0]
+         var PlayerBottomRightCorner = [SpriteArrayx[0] + SpriteArrayWidth[0] + SpriteArrayHeight[0],SpriteArrayy[0]+SpriteArrayWidth[0]+SpriteArrayHeight[0]];
+
+         //corners of the slime sprite
+         var SlimeTopLeftCorner = {x: SpriteArrayx[1],y: SpriteArrayy[1]}
+         var SlimeTopRightCorner = SpriteArrayx[1] + SpriteArrayWidth[1]
+         var SlimeBottomLeftCorner = SpriteArrayy[1] + SpriteArrayHeight[1]
+         var SlimeBottomRightCorner = [SpriteArrayx[1] + SpriteArrayWidth[1] + SpriteArrayHeight[1],SpriteArrayy[1]+SpriteArrayWidth[1]+SpriteArrayHeight[1]];
+
+         //collisions on all four sides
+         if (PlayerTopLeftCorner.x >= SlimeBottomLeftCorner && PlayerTopLeftCorner[1] <= SlimeBottomrightCorner[1]) {
+            SpriteArrayx[0]=0
+         }
    }
-   
+
 </script>
 
 </html>
