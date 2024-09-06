@@ -28,18 +28,26 @@
          top: 0px;
          z-index: 10;
          position: absolute;
+   
          border-radius: 50%;
          width: 500px;
          height: 500px;
       }
+      
    </style>
 
 </head>
 
 <body>
+
    <title>Mr.Darouse The Game</title>
-   <img class="Light" src="White_Light.png">
-   <img class="Light" src="White_Light.png">
+   <img class="Light" src="Mix_Light.png">
+   <img class="Light" src="Mix_Light.png">
+   <canvas id="PlayerUi">
+      <img id="healthPoints" hidden src="Health_Point.png">
+   </canvas>
+
+   </canvas>
    <canvas id="PlayerCanvas" height="0" width="0">
       <img id="PlayerSprite" hidden src="Darouse_Sprite_Op.png">
 
@@ -69,6 +77,8 @@
    var Playerx = 0;
    var Playery = 0;
    var PlayerFrame = [1, 1, 1, 1];
+   //ui vars//
+   var PlayerHealth = 4
    //all Sprite vars//
    var Player = document.getElementById("PlayerSprite");
    var Slime = document.getElementById("SlimeSprite");
@@ -77,25 +87,31 @@
    var SpriteArrayWidth = [200, 100];
    var SpriteArrayHeight = [200, 100];
    //canvas vars//
+   var u = document.getElementById("PlayerUi");
+   var utx = u.getContext("2d");
    var p = document.getElementById("PlayerCanvas");
    var ptx = p.getContext("2d");
-   var s = document.getElementById("SlimeCanvas")
+   var s = document.getElementById("SlimeCanvas");
    var stx = s.getContext("2d");
    //Events//
    document.addEventListener("keydown", MovePlayer)
+   //canvas sizes//
    p.setAttribute("width", WindowWidth + "px")
    p.setAttribute("height", WindowHeight + "px")
    s.setAttribute("width", WindowWidth + "px")
    s.setAttribute("height", WindowHeight + "px")
+   u.setAttribute("width", WindowWidth + "px")
+   u.setAttribute("height", WindowHeight + "px")
    //Intervals//
    setInterval(Slimemove, 10000)
    Slimemove()
    setInterval(Border, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
+   setInterval(PlayerHit, 1)
    //functions//
    //lights positions//
-   
+
    function lightPosition() {
 
       for (let i = 0; i < 2; i++) {
@@ -497,8 +513,6 @@
 
 
 
-
-
    //Border For All//
    function Border() {
 
@@ -518,8 +532,11 @@
          }
       }
    }
-
-
+   
+   function PlayerHit(){
+      
+   }
+   
 </script>
 
 </html>
