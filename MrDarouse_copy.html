@@ -77,7 +77,7 @@
    //ui vars//
 
    //enemy vars//
-   const enemyList = [{
+   const enemyList= [{
       x: Math.floor(Math.random() * windowWidth) + 1,
       y: Math.floor(Math.random() * windowHeight) + 1,
       width: 100,
@@ -111,7 +111,7 @@
    u.setAttribute("height", windowHeight + "px")
    //Intervals//
    setInterval(slimeWay, 10000)
-   setInterval(enemyMove, 1)
+   setInterval(enemyMove, 50)
    setInterval(playerBorder, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
@@ -338,44 +338,44 @@
    }
    //slime Sprite//
    function slimeWay() {
-      enemyList.way = Math.floor(Math.random() * 4) + 1
+      enemyList[0].way = Math.floor(Math.random() * 4) + 1
    }
    function enemyMove() {
       stx.clearRect(0, 0, 3000, 3000)
-      enemyList.sx = enemyList.sx +100
-      if (enemyList.sx === 800) {
-         enemyList.sx = 0
+      enemyList[0].sx = enemyList[0].sx +100
+      if (enemyList[0].sx === 800) {
+         enemyList[0].sx = 0
       }
-      if (enemyList.way === 1) {
-         enemyList.sy = 0
-         enemyList.y = enemyList.y + 1
-         if (enemyList.y >= windowHeight - enemyList.height) {
-            enemyList.y = enemyList.y - 1
+      if (enemyList[0].way === 1) {
+         enemyList[0].sy = 0
+         enemyList[0].y = enemyList[0].y + 1
+         if (enemyList[0].y >= windowHeight - enemyList[0].height) {
+            enemyList[0].y = enemyList[0].y - 1
          }
       }
-      else if (enemyList.way === 2) {
-         enemyList.sy = 100
-         enemyList.y = enemyList.y - 1
-         if (enemyList.y <= 0) {
-            enemyList.y = 1
+      else if (enemyList[0].way === 2) {
+         enemyList[0].sy = 100
+         enemyList[0].y = enemyList[0].y - 1
+         if (enemyList[0].y <= 0) {
+            enemyList[0].y = 1
          }
       }
-      else if (enemyList.way === 3) {
-         enemyList.sy = 200
-         enemyList.x = enemyList.x + 1
-         if (enemyList.x >= windowWidth - enemyList.width) {
-            enemyList.x = enemyList.x - 1
+      else if (enemyList[0].way === 3) {
+         enemyList[0].sy = 200
+         enemyList[0].x = enemyList[0].x + 1
+         if (enemyList[0].x >= windowWidth - enemyList[0].width) {
+            enemyList[0].x = enemyList[0].x - 1
          }
       }
-      else if (enemyList.way === 4) {
-         enemyList.sy = 300;
-         enemyList.x = enemyList.x - 1
-         if (enemyList.x <= 0) {
-            enemyList.x = 1;
+      else if (enemyList[0].way === 4) {
+         enemyList[0].sy = 300;
+         enemyList[0].x = enemyList[0].x - 1
+         if (enemyList[0].x <= 0) {
+            enemyList[0].x = 1;
          }
       }
      
-      stx.drawImage(enemyList.sprite, enemyList.sx, enemyList.sy, enemyList.swidth, enemyList.sheight, enemyList.x, enemyList.y, enemyList.width, enemyList.height)
+      stx.drawImage(enemyList[0].sprite, enemyList[0].sx, enemyList[0].sy, enemyList[0].swidth, enemyList[0].sheight, enemyList[0].x, enemyList[0].y, enemyList[0].width, enemyList[0].height)
      
    }
    function playerslimeCollision() {
@@ -386,10 +386,10 @@
       var playerBottomRightCorner = [player.x + player.width + player.height, player.y + player.width + player.height];
 
       //corners of the slime sprite
-      var slimeTopLeftCorner = { x: enemyList.x, y: enemyList.y }
-      var slimeTopRightCorner = enemyList.x + enemyList.width
-      var slimeBottomLeftCorner = enemyList.y + enemyList.height
-      var slimeBottomRightCorner = [enemyList.x + enemyList.width + enemyList.height, enemyList.y + enemyList.width + enemyList.height];
+      var slimeTopLeftCorner = { x: enemyList[0].x, y: enemyList[0].y }
+      var slimeTopRightCorner = enemyList[0].x + enemyList[0].width
+      var slimeBottomLeftCorner = enemyList[0].y + enemyList[0].height
+      var slimeBottomRightCorner = [enemyList[0].x + enemyList[0].width + enemyList[0].height, enemyList[0].y + enemyList[0].width + enemyList[0].height];
 
       //collisions on all four sides
       if (playerTopLeftCorner.x >= slimeBottomLeftCorner && playerTopLeftCorner <= slimeBottomrightCorner) {
