@@ -88,6 +88,7 @@
       swidth: 100,
       sheight: 100,
       way: 1,
+      speed:1,
       sprite: document.getElementById("slimeSprite"),
    }]
 
@@ -342,36 +343,36 @@
    }
    function enemyMove() {
       stx.clearRect(0, 0, 3000, 3000)
-      enemyList[0].sx = enemyList[0].sx +100
+      enemyList[0].sx = enemyList[0].sx +enemyList[0].width
       if (enemyList[0].sx === 800) {
          enemyList[0].sx = 0
       }
       if (enemyList[0].way === 1) {
          enemyList[0].sy = 0
-         enemyList[0].y = enemyList[0].y + 1
+         enemyList[0].y = enemyList[0].y + enemyList[0].speed
          if (enemyList[0].y >= windowHeight - enemyList[0].height) {
-            enemyList[0].y = enemyList[0].y - 1
+            enemyList[0].y = enemyList[0].y - enemyList[0].speed
          }
       }
       else if (enemyList[0].way === 2) {
          enemyList[0].sy = 100
-         enemyList[0].y = enemyList[0].y - 1
+         enemyList[0].y = enemyList[0].y - enemyList[0].speed
          if (enemyList[0].y <= 0) {
-            enemyList[0].y = 1
+            enemyList[0].y = enemyList[0].speed
          }
       }
       else if (enemyList[0].way === 3) {
          enemyList[0].sy = 200
-         enemyList[0].x = enemyList[0].x + 1
+         enemyList[0].x = enemyList[0].x + enemyList[0].speed
          if (enemyList[0].x >= windowWidth - enemyList[0].width) {
-            enemyList[0].x = enemyList[0].x - 1
+            enemyList[0].x = enemyList[0].x - enemyList[0].speed
          }
       }
       else if (enemyList[0].way === 4) {
          enemyList[0].sy = 300;
-         enemyList[0].x = enemyList[0].x - 1
+         enemyList[0].x = enemyList[0].x - enemyList[0].speed
          if (enemyList[0].x <= 0) {
-            enemyList[0].x = 1;
+            enemyList[0].x = enemyList[0].speed
          }
       }
      
