@@ -5,7 +5,6 @@
    <style>
       body {
          cursor: url("Pointer_Cursor.png"), auto;
-
          width: 100%;
          height: 100%;
          margin: 0%;
@@ -23,532 +22,374 @@
          top: 0;
       }
 
-      .Light {
+      .light {
          left: 0px;
          top: 0px;
          z-index: 10;
          position: absolute;
 
-         border-radius: 50%;
          width: 500px;
          height: 500px;
       }
    </style>
-
 </head>
 
 <body>
-
    <title>Mr.Darouse The Game</title>
-   <img class="Light" src="Mix_Light.png">
-   <img class="Light" src="Mix_Light.png">
-   <canvas id="PlayerUi">
+   <img class="light" src="Mix_Light.png">
+   <img class="light" src="Mix_Light.png">
+   <canvas id="playerUi">
       <img id="healthPoints" hidden src="Health_Point.png">
    </canvas>
-
    </canvas>
-   <canvas id="PlayerCanvas" height="0" width="0">
-      <img id="PlayerSprite" hidden src="Darouse_Sprite_Op.png">
-
+   <canvas id="playerCanvas" height="0" width="0">
+      <img id="playerSprite" hidden
+       src="Darouse_Sprite_Op.png">
    </canvas>
-
-   <canvas id="SlimeCanvas" height="0" width="0">
-      <img id="SlimeSprite" hidden src="Slime.png">
+   <canvas id="slimeCanvas" height="0" width="0">
+      <img id="slimeSprite" hidden src="Slime_Sprite.png">
    </canvas>
 </body>
 <script>
    //variabels//
    //screen vars//
-   var WindowWidth = window.innerWidth;
-   var WindowHeight = window.innerHeight;
+   var windowWidth = window.innerWidth;
+   var windowHeight = window.innerHeight;
    var ScreenChange
    //light vars//
-   var light = document.getElementsByClassName("Light")
-   var Lightx = [Math.floor(Math.random() * WindowWidth - 500), Math.floor(Math.random() * WindowWidth - 500)]
-   var Lighty = [Math.floor(Math.random() * WindowHeight - 500), Math.floor(Math.random() * WindowHeight - 500)]
-   //slime vars//
-   var SlimeInt
-   var SlimeWay = 4;
-   var SlimeFrame = 1
-   var Slimex = Math.floor(Math.random() * WindowWidth) + 1;
-   var Slimey = Math.floor(Math.random() * WindowHeight) + 1;
+   var light = document.getElementsByClassName("light")
+   var lightx = [Math.floor(Math.random() * windowWidth - 500), Math.floor(Math.random() * windowWidth - 500)]
+   var lighty = [Math.floor(Math.random() * windowHeight - 500), Math.floor(Math.random() * windowHeight - 500)]
    //player vars//
-   var Playerx = 0;
-   var Playery = 0;
-   var PlayerFrame = [1, 1, 1, 1];
+   var playerFrame = [1, 1, 1, 1];
+   const player = {
+      x: 0,
+      y: 0,
+      sx: 0,
+      sy: 0,
+      swidth: 100,
+      sheight: 100,
+      width: 200,
+      height: 200,
+      health: 4,
+      sprite: document.getElementById("playerSprite"),
+   }
    //ui vars//
-   var PlayerHealth = 4
-   //all Sprite vars//
-   var Player = document.getElementById("PlayerSprite");
-   var Slime = document.getElementById("SlimeSprite");
-   var SpriteArrayx = [Playerx, Slimex];
-   var SpriteArrayy = [Playery, Slimey];
-   var SpriteArrayWidth = [200, 100];
-   var SpriteArrayHeight = [200, 100];
+
+   //enemy vars//
+   const enemyList = [{
+      x: Math.floor(Math.random() * windowWidth) + 1,
+      y: Math.floor(Math.random() * windowHeight) + 1,
+      width: 100,
+      height: 100,
+      health: 10,
+      sx: 0,
+      sy: 0,
+      swidth: 100,
+      sheight: 100,
+      way: 1,
+      speed: 1,
+      sprite: document.getElementById("slimeSprite"),
+   }]
    //canvas vars//
-   var u = document.getElementById("PlayerUi");
+   var u = document.getElementById("playerUi");
    var utx = u.getContext("2d");
-   var p = document.getElementById("PlayerCanvas");
+   var p = document.getElementById("playerCanvas");
    var ptx = p.getContext("2d");
-   var s = document.getElementById("SlimeCanvas");
+   var s = document.getElementById("slimeCanvas");
    var stx = s.getContext("2d");
    //Events//
-   document.addEventListener("keydown", MovePlayer)
+   document.addEventListener("keydown", Moveplayer)
    //canvas sizes//
-   p.setAttribute("width", WindowWidth + "px")
-   p.setAttribute("height", WindowHeight + "px")
-   s.setAttribute("width", WindowWidth + "px")
-   s.setAttribute("height", WindowHeight + "px")
-   u.setAttribute("width", WindowWidth + "px")
-   u.setAttribute("height", WindowHeight + "px")
+   p.setAttribute("width", windowWidth + "px")
+   p.setAttribute("height", windowHeight + "px")
+   s.setAttribute("width", windowWidth + "px")
+   s.setAttribute("height", windowHeight + "px")
+   u.setAttribute("width", windowWidth + "px")
+   u.setAttribute("height", windowHeight + "px")
    //Intervals//
-   setInterval(Slimemove, 10000)
-   Slimemove()
-   setInterval(Border, 1)
+   setInterval(slimeWay, 10000)
+   setInterval(enemyMove, 50)
+   setInterval(playerBorder, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
-   setInterval(PlayerSlimeCollision, 1)
+   setInterval(playerEnemyCollision, 1)
    //functions//
    //lights positions//
-
    function lightPosition() {
-
       for (let i = 0; i < 2; i++) {
-         if (Lightx[i] < 0) {
-            Lightx[i] = 0
+         if (lightx[i] < 0) {
+            lightx[i] = 0
          }
-         if (Lightx[i] > WindowWidth - 500) {
-            Lightx[i] = WindowWidth - 500;
+         if (lightx[i] > windowWidth - 500) {
+            lightx[i] = windowWidth - 500;
          }
-         if (Lighty[i] < 0) {
-            Lighty[i] = 0;
+         if (lighty[i] < 0) {
+            lighty[i] = 0;
          }
-         if (Lighty[i] > WindowHeight - 500) {
-            Lighty[i] = WindowHeight - 500;
+         if (lighty[i] > windowHeight - 500) {
+            lighty[i] = windowHeight - 500;
          }
-         light[i].style.left = Lightx[i] + "px"
-         light[i].style.top = Lighty[i] + "px"
+         light[i].style.left = lightx[i] + "px"
+         light[i].style.top = lighty[i] + "px"
       }
    }
-
    //canvas sizes//
    function ScreenSize() {
-      if (WindowWidth != ScreenChange) {
-         ScreenChange = WindowWidth
-         p.setAttribute("width", WindowWidth + "px")
-         p.setAttribute("height", WindowHeight + "px")
-         s.setAttribute("width", WindowWidth + "px")
-         s.setAttribute("height", WindowHeight + "px")
+      if (windowWidth != ScreenChange) {
+         ScreenChange = windowWidth
+         p.setAttribute("width", windowWidth + "px")
+         p.setAttribute("height", windowHeight + "px")
+         s.setAttribute("width", windowWidth + "px")
+         s.setAttribute("height", windowHeight + "px")
       }
    }
-   //Player Sprite//
-   function PlayerUp() {
-      ptx.clearRect(0,0,3000,3000)
-      if (PlayerFrame[0] === 1) {
-         PlayerFrame[0] = 2
-         ptx.drawImage(Player, 0, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+   //player Sprite//
+   function playerUp() {
+      ptx.clearRect(0, 0, 3000, 3000)
+      if (playerFrame[0] === 1) {
+         playerFrame[0] = 2
+         ptx.drawImage(player.sprite, 0, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 2) {
-         PlayerFrame[0] = 3
-         ptx.drawImage(Player, 64, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 2) {
+         playerFrame[0] = 3
+         ptx.drawImage(player.sprite, 64, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 3) {
-         PlayerFrame[0] = 4
-         ptx.drawImage(Player, 128, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 3) {
+         playerFrame[0] = 4
+         ptx.drawImage(player.sprite, 128, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 4) {
-         PlayerFrame[0] = 5
-         ptx.drawImage(Player, 192, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 4) {
+         playerFrame[0] = 5
+         ptx.drawImage(player.sprite, 192, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 5) {
-         PlayerFrame[0] = 6
-         ptx.drawImage(Player, 256, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 5) {
+         playerFrame[0] = 6
+         ptx.drawImage(player.sprite, 256, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 6) {
-         PlayerFrame[0] = 7
-         ptx.drawImage(Player, 320, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 6) {
+         playerFrame[0] = 7
+         ptx.drawImage(player.sprite, 320, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 7) {
-         PlayerFrame[0] = 8
-         ptx.drawImage(Player, 384, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 7) {
+         playerFrame[0] = 8
+         ptx.drawImage(player.sprite, 384, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 8) {
-         PlayerFrame[0] = 9
-         ptx.drawImage(Player, 448, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 8) {
+         playerFrame[0] = 9
+         ptx.drawImage(player.sprite, 448, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[0] === 9) {
-         PlayerFrame[0] = 1
-         ptx.drawImage(Player, 512, 0, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-   }
-   function PlayerLeft() {
-      ptx.clearRect(0,0,3000,3000)
-      if (PlayerFrame[1] === 1) {
-         PlayerFrame[1] = 2
-         ptx.drawImage(Player, 0, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 2) {
-         PlayerFrame[1] = 3
-         ptx.drawImage(Player, 64, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 3) {
-         PlayerFrame[1] = 4
-         ptx.drawImage(Player, 128, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 4) {
-         PlayerFrame[1] = 5
-         ptx.drawImage(Player, 192, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 5) {
-         PlayerFrame[1] = 6
-         ptx.drawImage(Player, 256, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 6) {
-         PlayerFrame[1] = 7
-         ptx.drawImage(Player, 320, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 7) {
-         PlayerFrame[1] = 8
-         ptx.drawImage(Player, 384, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 8) {
-         PlayerFrame[1] = 9
-         ptx.drawImage(Player, 448, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[1] === 9) {
-         PlayerFrame[1] = 1
-         ptx.drawImage(Player, 512, 64, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[0] === 9) {
+         playerFrame[0] = 1
+         ptx.drawImage(player.sprite, 512, 0, 64, 64, player.x, player.y, player.width, player.height)
       }
    }
-   function PlayerDown() {
-      ptx.clearRect(0,0,3000,3000)
-      if (PlayerFrame[2] === 1) {
-         PlayerFrame[2] = 2
-         ptx.drawImage(Player, 0, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+   function playerLeft() {
+      ptx.clearRect(0, 0, 3000, 3000)
+      if (playerFrame[1] === 1) {
+         playerFrame[1] = 2
+         ptx.drawImage(player.sprite, 0, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 2) {
-         PlayerFrame[2] = 3
-         ptx.drawImage(Player, 64, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 2) {
+         playerFrame[1] = 3
+         ptx.drawImage(player.sprite, 64, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 3) {
-         PlayerFrame[2] = 4
-         ptx.drawImage(Player, 128, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 3) {
+         playerFrame[1] = 4
+         ptx.drawImage(player.sprite, 128, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 4) {
-         PlayerFrame[2] = 5
-         ptx.drawImage(Player, 192, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 4) {
+         playerFrame[1] = 5
+         ptx.drawImage(player.sprite, 192, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 5) {
-         PlayerFrame[2] = 6
-         ptx.drawImage(Player, 256, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 5) {
+         playerFrame[1] = 6
+         ptx.drawImage(player.sprite, 256, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 6) {
-         PlayerFrame[2] = 7
-         ptx.drawImage(Player, 320, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 6) {
+         playerFrame[1] = 7
+         ptx.drawImage(player.sprite, 320, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 7) {
-         PlayerFrame[2] = 8
-         ptx.drawImage(Player, 384, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 7) {
+         playerFrame[1] = 8
+         ptx.drawImage(player.sprite, 384, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 8) {
-         PlayerFrame[2] = 9
-         ptx.drawImage(Player, 448, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 8) {
+         playerFrame[1] = 9
+         ptx.drawImage(player.sprite, 448, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
-      else if (PlayerFrame[2] === 9) {
-         PlayerFrame[2] = 1
-         ptx.drawImage(Player, 512, 128, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-   }
-   function PlayerRight() {
-      ptx.clearRect(0,0,3000,3000)
-      if (PlayerFrame[3] === 1) {
-         PlayerFrame[3] = 2
-         ptx.drawImage(Player, 0, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 2) {
-         PlayerFrame[3] = 3
-         ptx.drawImage(Player, 64, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 3) {
-         PlayerFrame[3] = 4
-         ptx.drawImage(Player, 128, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 4) {
-         PlayerFrame[3] = 5
-         ptx.drawImage(Player, 192, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 5) {
-         PlayerFrame[3] = 6
-         ptx.drawImage(Player, 256, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 6) {
-         PlayerFrame[3] = 7
-         ptx.drawImage(Player, 320, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 7) {
-         PlayerFrame[3] = 8
-         ptx.drawImage(Player, 384, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 8) {
-         PlayerFrame[3] = 9
-         ptx.drawImage(Player, 448, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
-      }
-      else if (PlayerFrame[3] === 9) {
-         PlayerFrame[3] = 1
-         ptx.drawImage(Player, 512, 192, 64, 64, SpriteArrayx[0], SpriteArrayy[0], SpriteArrayWidth[0], SpriteArrayHeight[0])
+      else if (playerFrame[1] === 9) {
+         playerFrame[1] = 1
+         ptx.drawImage(player.sprite, 512, 64, 64, 64, player.x, player.y, player.width, player.height)
       }
    }
-   //PlayerMovment
-   function MovePlayer(e) {
+   function playerDown() {
+      ptx.clearRect(0, 0, 3000, 3000)
+      if (playerFrame[2] === 1) {
+         playerFrame[2] = 2
+         ptx.drawImage(player.sprite, 0, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 2) {
+         playerFrame[2] = 3
+         ptx.drawImage(player.sprite, 64, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 3) {
+         playerFrame[2] = 4
+         ptx.drawImage(player.sprite, 128, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 4) {
+         playerFrame[2] = 5
+         ptx.drawImage(player.sprite, 192, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 5) {
+         playerFrame[2] = 6
+         ptx.drawImage(player.sprite, 256, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 6) {
+         playerFrame[2] = 7
+         ptx.drawImage(player.sprite, 320, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 7) {
+         playerFrame[2] = 8
+         ptx.drawImage(player.sprite, 384, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 8) {
+         playerFrame[2] = 9
+         ptx.drawImage(player.sprite, 448, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[2] === 9) {
+         playerFrame[2] = 1
+         ptx.drawImage(player.sprite, 512, 128, 64, 64, player.x, player.y, player.width, player.height)
+      }
+   }
+   function playerRight() {
+      ptx.clearRect(0, 0, 3000, 3000)
+      if (playerFrame[3] === 1) {
+         playerFrame[3] = 2
+         ptx.drawImage(player.sprite, 0, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 2) {
+         playerFrame[3] = 3
+         ptx.drawImage(player.sprite, 64, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 3) {
+         playerFrame[3] = 4
+         ptx.drawImage(player.sprite, 128, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 4) {
+         playerFrame[3] = 5
+         ptx.drawImage(player.sprite, 192, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 5) {
+         playerFrame[3] = 6
+         ptx.drawImage(player.sprite, 256, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 6) {
+         playerFrame[3] = 7
+         ptx.drawImage(player.sprite, 320, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 7) {
+         playerFrame[3] = 8
+         ptx.drawImage(player.sprite, 384, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 8) {
+         playerFrame[3] = 9
+         ptx.drawImage(player.sprite, 448, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+      else if (playerFrame[3] === 9) {
+         playerFrame[3] = 1
+         ptx.drawImage(player.sprite, 512, 192, 64, 64, player.x, player.y, player.width, player.height)
+      }
+   }
+   //playerMovment
+   function Moveplayer(e) {
 
       if (e.key === "a") {
-         SpriteArrayx[0] = SpriteArrayx[0] - 10
-         PlayerLeft()
+         player.x = player.x - 10
+         playerLeft()
       }
       if (e.key === "s") {
-         SpriteArrayy[0] = SpriteArrayy[0] + 10
-         PlayerDown()
+         player.y = player.y + 10
+         playerDown()
       }
       if (e.key === "d") {
-         SpriteArrayx[0] = SpriteArrayx[0] + 10
-         PlayerRight()
+         player.x = player.x + 10
+         playerRight()
       }
       if (e.key === "w") {
-         SpriteArrayy[0] = SpriteArrayy[0] - 10
-         PlayerUp()
+         player.y = player.y - 10
+         playerUp()
       }
    }
-   //Slime Sprite//
-   function SlimeDown() {
-      stx.clearRect(0,0,3000,3000)
-      if (SlimeFrame === 1) {
-         SlimeFrame = 2
-         stx.drawImage(Slime, 0, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+   function playerBorder() {
+      if (player.x >= windowWidth - player.width) {
+         player.x = player.x - 10
       }
-      else if (SlimeFrame === 2) {
-         SlimeFrame = 3
-         stx.drawImage(Slime, 100, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+      if (player.x < 0) {
+         player.x = player.x + 10
       }
-      else if (SlimeFrame === 3) {
-         SlimeFrame = 4
-         stx.drawImage(Slime, 200, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 4) {
-         SlimeFrame = 5
-         stx.drawImage(Slime, 300, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 5) {
-         SlimeFrame = 6
-         stx.drawImage(Slime, 400, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 6) {
-         SlimeFrame = 7
-         stx.drawImage(Slime, 500, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 7) {
-         SlimeFrame = 8
-         stx.drawImage(Slime, 600, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 8) {
-         SlimeFrame = 1
-         stx.drawImage(Slime, 700, 0, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+      if (player.y >= windowHeight - player.height) {
+         player.y = player.y - 10
+      } if (player.y < 0) {
+         player.y = player.y + 10
       }
    }
-   function SlimeUp() {
-      stx.clearRect(0,0,3000,3000)
-      if (SlimeFrame === 1) {
-         SlimeFrame = 2
-         stx.drawImage(Slime, 0, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 2) {
-         SlimeFrame = 3
-         stx.drawImage(Slime, 100, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 3) {
-         SlimeFrame = 4
-         stx.drawImage(Slime, 200, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 4) {
-         SlimeFrame = 5
-         stx.drawImage(Slime, 300, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 5) {
-         SlimeFrame = 6
-         stx.drawImage(Slime, 400, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 6) {
-         SlimeFrame = 7
-         stx.drawImage(Slime, 500, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 7) {
-         SlimeFrame = 8
-         stx.drawImage(Slime, 600, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 8) {
-         SlimeFrame = 1
-         stx.drawImage(Slime, 700, 100, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
+   //slime Sprite//
+   function slimeWay() {
+      enemyList[0].way = Math.floor(Math.random() * 4) + 1
    }
-   function SlimeRight() {
-      stx.clearRect(0,0,3000,3000)
-      if (SlimeFrame === 1) {
-         SlimeFrame = 2
-         stx.drawImage(Slime, 0, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
+   function enemyMove() {
+      stx.clearRect(0, 0, 3000, 3000)
+      enemyList[0].sx = enemyList[0].sx + enemyList[0].width
+      if (enemyList[0].sx === 800) {
+         enemyList[0].sx = 0
       }
-      else if (SlimeFrame === 2) {
-         SlimeFrame = 3
-         stx.drawImage(Slime, 100, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 3) {
-         SlimeFrame = 4
-         stx.drawImage(Slime, 200, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 4) {
-         SlimeFrame = 5
-         stx.drawImage(Slime, 300, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 5) {
-         SlimeFrame = 6
-         stx.drawImage(Slime, 400, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 6) {
-         SlimeFrame = 7
-         stx.drawImage(Slime, 500, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 7) {
-         SlimeFrame = 8
-         stx.drawImage(Slime, 600, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 8) {
-         SlimeFrame = 1
-         stx.drawImage(Slime, 700, 200, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-   }
-   function SlimeLeft() {
-      stx.clearRect(0,0,3000,3000)
-      if (SlimeFrame === 1) {
-         SlimeFrame = 2
-         stx.drawImage(Slime, 0, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 2) {
-         SlimeFrame = 3
-         stx.drawImage(Slime, 100, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 3) {
-         SlimeFrame = 4
-         stx.drawImage(Slime, 200, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 4) {
-         SlimeFrame = 5
-         stx.drawImage(Slime, 300, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 5) {
-         SlimeFrame = 6
-         stx.drawImage(Slime, 400, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 6) {
-         SlimeFrame = 7
-         stx.drawImage(Slime, 500, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 7) {
-         SlimeFrame = 8
-         stx.drawImage(Slime, 600, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-      else if (SlimeFrame === 8) {
-         SlimeFrame = 1
-         stx.drawImage(Slime, 700, 300, 100, 100, SpriteArrayx[1], SpriteArrayy[1], SpriteArrayWidth[1], SpriteArrayHeight[1])
-      }
-   }
-   //Slime Movment//
-   function Slimemove() {
-      SlimeWay = Math.floor(Math.random() * 4) + 1
-      SlimeWay != SlimeWay
-      clearInterval(SlimeInt)
-      SlimeInt = setInterval(SlimePath, 50)
-      function SlimePath() {
-         if (SlimeWay === 1) {
-            //Slime Up//
-            SpriteArrayy[1] = SpriteArrayy[1] - 1
-            SlimeUp()
-            if (SpriteArrayy[1] <= 0) {
-               SpriteArrayy[1] = SpriteArrayy[1] + 1
-            }
-
+      if (enemyList[0].way === 1) {
+         enemyList[0].sy = 0
+         enemyList[0].y = enemyList[0].y + enemyList[0].speed
+         if (enemyList[0].y >= windowHeight - enemyList[0].height) {
+            enemyList[0].y = enemyList[0].y - enemyList[0].speed
          }
-         else if (SlimeWay === 2) {
-            //Slime Down//
-            SlimeDown()
-            SpriteArrayy[1] = SpriteArrayy[1] + 1
-
-            if (SpriteArrayy[1] >= WindowHeight - SpriteArrayHeight[1]) {
-               SpriteArrayy[1] = SpriteArrayy[1] - 1
-            }
-         }
-         else if (SlimeWay === 3) {
-            //Slime Right//
-            SlimeRight()
-            SpriteArrayx[1] = SpriteArrayx[1] + 1
-
-            if (SpriteArrayx[1] >= WindowWidth - SpriteArrayWidth[1]) {
-               SpriteArrayx[1] = SpriteArrayx[1] - 1
-            }
-         }
-         else if (SlimeWay === 4) {
-            //Slime Left//
-            SlimeLeft()
-            SpriteArrayx[1] = SpriteArrayx[1] - 1
-            if (SpriteArrayx[1] <= 0) {
-               SpriteArrayx[1] = SpriteArrayx[1] + 1
-            }
-
-         }
-
       }
+      else if (enemyList[0].way === 2) {
+         enemyList[0].sy = 100
+         enemyList[0].y = enemyList[0].y - enemyList[0].speed
+         if (enemyList[0].y <= 0) {
+            enemyList[0].y = enemyList[0].speed
+         }
+      }
+      else if (enemyList[0].way === 3) {
+         enemyList[0].sy = 200
+         enemyList[0].x = enemyList[0].x + enemyList[0].speed
+         if (enemyList[0].x >= windowWidth - enemyList[0].width) {
+            enemyList[0].x = enemyList[0].x - enemyList[0].speed
+         }
+      }
+      else if (enemyList[0].way === 4) {
+         enemyList[0].sy = 300;
+         enemyList[0].x = enemyList[0].x - enemyList[0].speed
+         if (enemyList[0].x <= 0) {
+            enemyList[0].x = enemyList[0].speed
+         }
+      }
+
+      stx.drawImage(enemyList[0].sprite, enemyList[0].sx, enemyList[0].sy, enemyList[0].swidth, enemyList[0].sheight, enemyList[0].x, enemyList[0].y, enemyList[0].width, enemyList[0].height)
 
    }
+   function playerEnemyCollision() {
 
-
-
-
-
-
-   //Border For All//
-   function Border() {
-
-      for (var i = 0; i <= 0; i++) {
-
-         if (SpriteArrayx[i] >= WindowWidth - SpriteArrayWidth[i]) {
-            SpriteArrayx[i] = SpriteArrayx[i] - 10
-
-         }
-         if (SpriteArrayx[i] < 0) {
-            SpriteArrayx[i] = SpriteArrayx[i] + 10
-         }
-         if (SpriteArrayy[i] >= WindowHeight - SpriteArrayHeight[i]) {
-            SpriteArrayy[i] = SpriteArrayy[i] - 10
-         } if (SpriteArrayy[i] < 0) {
-            SpriteArrayy[i] = SpriteArrayy[i] + 10
-         }
+      //collisions on all four sides
+      if (player.x+ player.width >=enemyList[0].x &&
+         player.x <=enemyList[0].x +enemyList[0].width && 
+         player.y + player.height >=enemyList[0].y && 
+         player.y <=enemyList[0].y + enemyList[0].height)
+      {
+player.x=0
+player.y=0
+         console.log("true")
+      }else{
+         console.log("false")
       }
-   }
-
-      function PlayerSlimeCollision() {
-         //corners of the player sprite
-         var PlayerTopLeftCorner = {x: SpriteArrayx[0],y: SpriteArrayy[0]};
-         var PlayerTopRightCorner = SpriteArrayx[0] + SpriteArrayWidth[0]
-         var PlayerBottomLeftCorner =  SpriteArrayy[0] + SpriteArrayHeight[0]
-         var PlayerBottomRightCorner = [SpriteArrayx[0] + SpriteArrayWidth[0] + SpriteArrayHeight[0],SpriteArrayy[0]+SpriteArrayWidth[0]+SpriteArrayHeight[0]];
-
-         //corners of the slime sprite
-         var SlimeTopLeftCorner = {x: SpriteArrayx[1],y: SpriteArrayy[1]}
-         var SlimeTopRightCorner = SpriteArrayx[1] + SpriteArrayWidth[1]
-         var SlimeBottomLeftCorner = SpriteArrayy[1] + SpriteArrayHeight[1]
-         var SlimeBottomRightCorner = [SpriteArrayx[1] + SpriteArrayWidth[1] + SpriteArrayHeight[1],SpriteArrayy[1]+SpriteArrayWidth[1]+SpriteArrayHeight[1]];
-
-         //collisions on all four sides
-         if (PlayerTopLeftCorner.x >= SlimeBottomLeftCorner && PlayerTopLeftCorner[1] <= SlimeBottomrightCorner[1]) {
-            SpriteArrayx[0]=0
-         }
    }
 
 </script>
