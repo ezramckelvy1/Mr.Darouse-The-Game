@@ -63,8 +63,8 @@
    //player vars//
    var playerFrame = [1, 1, 1, 1];
    const player = {
-      x: 0,
-      y: 0,
+      x: 100,
+      y: 100,
       sx: 0,
       sy: 0,
       swidth: 100,
@@ -75,7 +75,18 @@
       sprite: document.getElementById("playerSprite"),
    }
    //ui vars//
-
+var healthPoint= {
+   x:[windowWidth-100,windowWidth-200,windowWidth-300,windowWidth-400],
+   y:0,
+   sx:0,
+   sy:[0,0,0,0],
+   height:100,
+   width:100,
+   swidth:100,
+   sheight:100,
+   alive:true,
+   sprite: document.getElementById("healthPoints"),
+}
    //enemy vars//
    const enemyList = [{
       x: Math.floor(Math.random() * windowWidth) + 1,
@@ -377,7 +388,7 @@
 
    }
    function playerEnemyCollision() {
-
+      utx.clearRect(0, 0, 3000, 3000)
       //collisions on all four sides
       if (player.x+ player.width >=enemyList[0].x &&
          player.x <=enemyList[0].x +enemyList[0].width && 
@@ -386,11 +397,26 @@
       {
 player.x=0
 player.y=0
+if(player.health===4){
+healthPoint.sy[0]=100}
+if(player.health===3){
+   healthPoint.sy[1]=100}
+if(player.health===2){
+      healthPoint.sy[2]=100}
+if(player.health===1){
+         healthPoint.sy[3]=100
+         location.href="index.html"}
+player.health=player.health-1
+
          console.log("true")
       }else{
          console.log("false")
       }
+      for(let i=0;i<=4;i++){
+      utx.drawImage(healthPoint.sprite,healthPoint.sx,healthPoint.sy[i],healthPoint.swidth,healthPoint.sheight,healthPoint.x[i],healthPoint.y,healthPoint.width,healthPoint.height,)
    }
+}
+
 
 </script>
 
