@@ -3,12 +3,12 @@
 
 <head>
    <style>
-      body {
+      body { 
          cursor: url("Pointer_Cursor.png"), auto;
          width: 100%;
          height: 100%;
          margin: 0%;
-         background-image: url("Brick_Room_Texture.png");
+         background-image:url("Brick_Room_Texture.png");
          background-repeat: no-repeat;
          max-width: 100%;
          max-height: 100%;
@@ -37,19 +37,19 @@
 <body>
    <title>Mr.Darouse The Game</title>
    <canvas id="bulletCanvas" src="orb.png">
-      <img id="bullet" hidden src="orb.png">
+   <img id="bullet"  hidden src="orb.png">
    </canvas>
    <img class="light" src="Mix_Light.png">
-   <img class="light" src="Mix_Light.png">
+   <img class="light"  src="Mix_Light.png">
    <canvas id="playerUi">
-      <img id="healthPoints" hidden src="Health_Point.png">
+      <img id="healthPoints"   hidden src="Health_Point.png">
    </canvas>
    </canvas>
    <canvas id="playerCanvas" height="0" width="0">
-      <img id="playerSprite" hidden src="Darouse_Sprite.png">
+      <img id="playerSprite"  hidden src="Darouse_Sprite.png">
    </canvas>
    <canvas id="slimeCanvas" height="0" width="0">
-      <img id="slimeSprite" hidden src="Slime_Sprite.png">
+      <img id="slimeSprite"  hidden src="Slime_Sprite.png">
    </canvas>
 </body>
 <script>
@@ -75,34 +75,34 @@
       height: 144,
       health: 4,
       sprite: document.getElementById("playerSprite"),
-      way: 0,
+      way:0,
    }
    //ui vars//
-   var healthPoint = {
-      x: [windowWidth - 100, windowWidth - 200, windowWidth - 300, windowWidth - 400],
-      y: 0,
-      sx: 0,
-      sy: [0, 0, 0, 0],
-      height: 100,
-      width: 100,
-      swidth: 100,
-      sheight: 100,
-
-      sprite: document.getElementById("healthPoints"),
-   }
-   //bullet vars//
-   var bullet = {
-      x: [],
-      y: [],
-      height: 32,
-      width: 32,
-      swidth: 32,
-      sheight: 32,
-      sprite: document.getElementById("bullet"),
-      way: [],
-   }
-   var bullets = 0
-   var bulletnum = []
+var healthPoint= {
+   x:[windowWidth-100,windowWidth-200,windowWidth-300,windowWidth-400],
+   y:0,
+   sx:0,
+   sy:[0,0,0,0],
+   height:100,
+   width:100,
+   swidth:100,
+   sheight:100,
+  
+   sprite: document.getElementById("healthPoints"),
+}
+//bullet vars//
+var bullet={
+   x:[],
+   y:[],
+   height:32,
+   width:32,
+   swidth:32,
+   sheight:32,
+   sprite:document.getElementById("bullet"),
+   way:[],
+}
+var bullets = 0
+var bulletnum=[]
    //enemy vars//
    const enemyList = [{
       x: Math.floor(Math.random() * windowWidth) + 1,
@@ -119,7 +119,7 @@
       sprite: document.getElementById("slimeSprite"),
    }]
    //canvas vars//
-
+  
    var b = document.getElementById("bulletCanvas");
    var btx = b.getContext("2d");
    var u = document.getElementById("playerUi");
@@ -129,16 +129,8 @@
    var s = document.getElementById("slimeCanvas");
    var stx = s.getContext("2d");
    //Events//
-   var key = {
-      a: false,
-      s: false,
-      w: false,
-      d: false,
-      space: false,
-
-   }
-   document.addEventListener("keydown", keyPress)
-   document.addEventListener("keyup", keyUp)
+   document.addEventListener("keydown", Moveplayer)
+   document.addEventListener("keyup", fire)
    //canvas sizes//
    p.setAttribute("width", windowWidth + "px")
    p.setAttribute("height", windowHeight + "px")
@@ -149,9 +141,7 @@
    b.setAttribute("width", windowWidth + "px")
    b.setAttribute("height", windowHeight + "px")
    //Intervals//
-   var bull
-   setInterval(playerMove, 50)
-   setInterval(fire, 1)
+var bull
    setInterval(slimeWay, 10000)
    setInterval(enemyMove, 50)
    setInterval(playerBorder, 1)
@@ -178,45 +168,6 @@
          light[i].style.top = lighty[i] + "px"
       }
    }
-   //key presses//
-   function keyPress(e) {
-
-      if (e.key === "a") {
-         key.a = true
-      }
-      if (e.key === "s") {
-         key.s = true
-      }
-      if (e.key === "d") {
-         key.d = true
-      }
-      if (e.key === "w") {
-         key.w = true
-      }
-      if (e.key === " ") {
-         key.space = true
-      }
-      // key === false
-   }
-   function keyUp(e) {
-
-if (e.key === "a") {
-   key.a = false
-}
-if (e.key === "s") {
-   key.s =  false
-}
-if (e.key === "d") {
-   key.d = false
-}
-if (e.key === "w") {
-   key.w = false
-}
-if (e.key === " ") {
-   key.space = false
-}
-// key === false
-}
    //canvas sizes//
    function ScreenSize() {
       if (windowWidth != ScreenChange) {
@@ -386,26 +337,26 @@ if (e.key === " ") {
          ptx.drawImage(player.sprite, 248, 144, 31, 48, player.x, player.y, player.width, player.height)
       }
    }
-
    //playerMovment
-   function playerMove() {
-      if (key.a === true) {
+   function Moveplayer(e) {
+
+      if (e.key === "a") {
          player.x = player.x - 10
-         player.way = 1
+         player.way=1
          playerLeft()
       }
-      if (key.s === true) {
+      if (e.key === "s") {
          player.y = player.y + 10
-         player.way = 2
+         player.way=2
          playerDown()
       }
-      if (key.d === true) {
+      if (e.key === "d") {
          player.x = player.x + 10
-         player.way = 3
+         player.way=3
          playerRight()
       }
-      if (key.w === true) {
-         player.way = 4
+      if (e.key === "w") {
+         player.way=4
          player.y = player.y - 10
          playerUp()
       }
@@ -468,76 +419,66 @@ if (e.key === " ") {
    function playerEnemyCollision() {
       utx.clearRect(0, 0, 3000, 3000)
       //collisions on all four sides
-      if (player.x + player.width >= enemyList[0].x &&
-         player.x <= enemyList[0].x + enemyList[0].width &&
-         player.y + player.height >= enemyList[0].y &&
-         player.y <= enemyList[0].y + enemyList[0].height) {
-         player.x = 0
-         player.y = 0
-         if (player.health === 4) {
-            healthPoint.sy[0] = 100
+      if (player.x+ player.width >=enemyList[0].x &&
+         player.x <=enemyList[0].x +enemyList[0].width && 
+         player.y + player.height >=enemyList[0].y && 
+         player.y <=enemyList[0].y + enemyList[0].height)
+      {
+player.x=0
+player.y=0
+if(player.health===4){
+healthPoint.sy[0]=100}
+if(player.health===3){
+   healthPoint.sy[1]=100}
+if(player.health===2){
+      healthPoint.sy[2]=100}
+if(player.health===1){
+         healthPoint.sy[3]=100
+         location.href="index.html"
          }
-         if (player.health === 3) {
-            healthPoint.sy[1] = 100
-         }
-         if (player.health === 2) {
-            healthPoint.sy[2] = 100
-         }
-         if (player.health === 1) {
-            healthPoint.sy[3] = 100
-            location.href = "index.html"
-         }
-         player.health = player.health - 1
+player.health=player.health-1
 
-
+       
       }
-      for (let i = 0; i <= 4; i++) {
-         utx.drawImage(healthPoint.sprite, healthPoint.sx, healthPoint.sy[i], healthPoint.swidth, healthPoint.sheight, healthPoint.x[i], healthPoint.y, healthPoint.width, healthPoint.height,)
-      }
+      for(let i=0;i<=4;i++){
+      utx.drawImage(healthPoint.sprite,healthPoint.sx,healthPoint.sy[i],healthPoint.swidth,healthPoint.sheight,healthPoint.x[i],healthPoint.y,healthPoint.width,healthPoint.height,)
    }
-   //bullet movement//
-   var fired=false
-   function fire() {
-      if (key.space === true) {
-        if(fired===false){
-         clearInterval(bull)
-         bullet.x.push(player.x + 30)
-         bullet.y.push(player.y + 72)
-         console.log("pushed")
+}
 
-         bullet.way.push(player.way)
-         bulletnum.push(bullets)
-         bullets++
-         bull = setInterval(bulletMove, 2)
-         fired=true
-      }
-      
-   }
-   if (key.space === false){
-      fired=false
-   }
-   }
-   function bulletMove() {
-      for (let i = 0; i < bulletnum.length; i++) {
-         btx.clearRect(bullet.x[i], bullet.y[i], 32, 32)
-         if (bullet.way[i] === 1) {
-            bullet.x[i] = bullet.x[i] - 5
-         }
-         if (bullet.way[i] === 2) {
-            bullet.y[i] = bullet.y[i] + 5
-         }
-         if (bullet.way[i] === 3) {
-            bullet.x[i] = bullet.x[i] + 5
-         }
-         if (bullet.way[i] === 4) {
-            bullet.y[i] = bullet.y[i] - 5
-         }
+function fire (e){
+if(e.key===" "){
+clearInterval(bull)
+   bullet.x.push(player.x+50)
+   bullet.y.push(player.y+30)
+console.log("pushed")
 
-
-         btx.drawImage(bullet.sprite, 0, 0, 32, 32, bullet.x[i], bullet.y[i], 32, 32)
-      }
+bullet.way.push(player.way)
+ bulletnum.push(bullets)
+      bullets++
+      bull = setInterval(bulletMove,2)
+}
+ 
    }
-   
+
+function bulletMove(){
+   for(let i =0;i<bulletnum.length;i++){
+   btx.clearRect(bullet.x[i],bullet.y[i],32,32)
+   if(bullet.way[i]===1){
+      bullet.x[i]=bullet.x[i]-1
+   }
+   if(bullet.way[i]===2){
+      bullet.y[i]=bullet.y[i]+1
+   }
+   if(bullet.way[i]===3){
+      bullet.x[i]=bullet.x[i]+1
+   }
+   if(bullet.way[i]===4){
+      bullet.y[i]=bullet.y[i]-1
+   }
+  
+  
+   btx.drawImage(bullet.sprite,0,0,32,32,bullet.x[i],bullet.y[i],32,32)
+}}
 </script>
 
 </html>
