@@ -53,16 +53,17 @@
    </canvas>
 </body>
 <script>
-   //variabels//
-   //screen vars//
+   //variabels
+   
+   //screen vars
    var windowWidth = window.innerWidth;
    var windowHeight = window.innerHeight;
    var ScreenChange
-   //light vars//
+   //light vars
    var light = document.getElementsByClassName("light")
    var lightx = [Math.floor(Math.random() * windowWidth - 500), Math.floor(Math.random() * windowWidth - 500)]
    var lighty = [Math.floor(Math.random() * windowHeight - 500), Math.floor(Math.random() * windowHeight - 500)]
-   //player vars//
+   //player vars
    var playerFrame = [1, 1, 1, 1];
    const player = {
       x: 0,
@@ -77,7 +78,7 @@
       sprite: document.getElementById("playerSprite"),
       way:0,
    }
-   //ui vars//
+   //ui vars
 var healthPoint= {
    x:[windowWidth-100,windowWidth-200,windowWidth-300,windowWidth-400],
    y:0,
@@ -90,10 +91,13 @@ var healthPoint= {
   
    sprite: document.getElementById("healthPoints"),
 }
-//bullet vars//
+//bullet vars
 var bullet={
    x:[],
    y:[],
+   sx:[],
+   sy:[],
+
    height:32,
    width:32,
    swidth:32,
@@ -103,7 +107,7 @@ var bullet={
 }
 var bullets = 0
 var bulletnum=[]
-   //enemy vars//
+   //enemy vars
    const enemyList = [{
       x: Math.floor(Math.random() * windowWidth) + 1,
       y: Math.floor(Math.random() * windowHeight) + 1,
@@ -118,7 +122,7 @@ var bulletnum=[]
       speed: 1,
       sprite: document.getElementById("slimeSprite"),
    }]
-   //canvas vars//
+   //canvas vars
   
    var b = document.getElementById("bulletCanvas");
    var btx = b.getContext("2d");
@@ -128,10 +132,10 @@ var bulletnum=[]
    var ptx = p.getContext("2d");
    var s = document.getElementById("slimeCanvas");
    var stx = s.getContext("2d");
-   //Events//
+   //Events
    document.addEventListener("keydown", Moveplayer)
    document.addEventListener("keyup", fire)
-   //canvas sizes//
+   //canvas sizes
    p.setAttribute("width", windowWidth + "px")
    p.setAttribute("height", windowHeight + "px")
    s.setAttribute("width", windowWidth + "px")
@@ -140,7 +144,8 @@ var bulletnum=[]
    u.setAttribute("height", windowHeight + "px")
    b.setAttribute("width", windowWidth + "px")
    b.setAttribute("height", windowHeight + "px")
-   //Intervals//
+   
+   //Intervals
 var bull
    setInterval(slimeWay, 10000)
    setInterval(enemyMove, 50)
@@ -148,8 +153,9 @@ var bull
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
    setInterval(playerEnemyCollision, 1)
-   //functions//
-   //lights positions//
+   
+   //functions
+   //lights positions
    function lightPosition() {
       for (let i = 0; i < 2; i++) {
          if (lightx[i] < 0) {
@@ -168,7 +174,7 @@ var bull
          light[i].style.top = lighty[i] + "px"
       }
    }
-   //canvas sizes//
+   //canvas sizes
    function ScreenSize() {
       if (windowWidth != ScreenChange) {
          ScreenChange = windowWidth
@@ -180,7 +186,7 @@ var bull
          b.setAttribute("height", windowHeight + "px")
       }
    }
-   //player Sprite//
+   //player Sprite
    function playerUp() {
       ptx.clearRect(0, 0, 3000, 3000)
       if (playerFrame[0] === 1) {
@@ -450,6 +456,8 @@ if(e.key===" "){
 clearInterval(bull)
    bullet.x.push(player.x+50)
    bullet.y.push(player.y+30)
+   bullet.sx.push(0)
+   bullet.sy.push(0)
 console.log("pushed")
 
 bullet.way.push(player.way)
@@ -475,8 +483,7 @@ function bulletMove(){
    if(bullet.way[i]===4){
       bullet.y[i]=bullet.y[i]-1
    }
-  
-  
+
    btx.drawImage(bullet.sprite,0,0,32,32,bullet.x[i],bullet.y[i],32,32)
 }}
 </script>

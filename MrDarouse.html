@@ -102,6 +102,7 @@
       way: [],
    }
    var bullets = 0
+   var fired = false
    var bulletnum = []
    //enemy vars//
    const enemyList = [{
@@ -109,7 +110,7 @@
       y: Math.floor(Math.random() * windowHeight) + 1,
       width: 50,
       height: 28,
-      health: 2,
+      health: 10,
       sx: 0,
       sy: 0,
       swidth: 50,
@@ -117,6 +118,7 @@
       way: 1,
       speed: 1,
       sprite: document.getElementById("slimeSprite"),
+      alive: true,
    }]
    //canvas vars//
 
@@ -200,23 +202,23 @@
    }
    function keyUp(e) {
 
-if (e.key === "a") {
-   key.a = false
-}
-if (e.key === "s") {
-   key.s =  false
-}
-if (e.key === "d") {
-   key.d = false
-}
-if (e.key === "w") {
-   key.w = false
-}
-if (e.key === " ") {
-   key.space = false
-}
-// key === false
-}
+      if (e.key === "a") {
+         key.a = false
+      }
+      if (e.key === "s") {
+         key.s = false
+      }
+      if (e.key === "d") {
+         key.d = false
+      }
+      if (e.key === "w") {
+         key.w = false
+      }
+      if (e.key === " ") {
+         key.space = false
+      }
+      // key === false
+   }
    //canvas sizes//
    function ScreenSize() {
       if (windowWidth != ScreenChange) {
@@ -461,19 +463,22 @@ if (e.key === " ") {
             enemyList[0].x = enemyList[0].speed
          }
       }
-
-      stx.drawImage(enemyList[0].sprite, enemyList[0].sx, enemyList[0].sy, enemyList[0].swidth, enemyList[0].sheight, enemyList[0].x, enemyList[0].y, enemyList[0].width, enemyList[0].height)
-
+      if (enemyList[0].health === 1) {
+         enemyList[0].alive = false
+      }
+      if (enemyList[0].alive === true) {
+         stx.drawImage(enemyList[0].sprite, enemyList[0].sx, enemyList[0].sy, enemyList[0].swidth, enemyList[0].sheight, enemyList[0].x, enemyList[0].y, enemyList[0].width, enemyList[0].height)
+      }
    }
    function playerEnemyCollision() {
       utx.clearRect(0, 0, 3000, 3000)
       //collisions on all four sides
+
       if (player.x + player.width >= enemyList[0].x &&
          player.x <= enemyList[0].x + enemyList[0].width &&
          player.y + player.height >= enemyList[0].y &&
          player.y <= enemyList[0].y + enemyList[0].height) {
-         player.x = 0
-         player.y = 0
+        
          if (player.health === 4) {
             healthPoint.sy[0] = 100
          }
@@ -487,8 +492,11 @@ if (e.key === " ") {
             healthPoint.sy[3] = 100
             location.href = "index.html"
          }
+         if(enemyList[0].alive===true){
          player.health = player.health - 1
-
+         player.x = 0
+         player.y = 0
+         }
 
       }
       for (let i = 0; i <= 4; i++) {
@@ -496,26 +504,26 @@ if (e.key === " ") {
       }
    }
    //bullet movement//
-   var fired=false
+   
    function fire() {
       if (key.space === true) {
-        if(fired===false){
-         clearInterval(bull)
-         bullet.x.push(player.x + 30)
-         bullet.y.push(player.y + 72)
-         console.log("pushed")
+         if (fired === false) {
+            clearInterval(bull)
+            bullet.x.push(player.x + 30)
+            bullet.y.push(player.y + 72)
+            console.log("pushed")
 
-         bullet.way.push(player.way)
-         bulletnum.push(bullets)
-         bullets++
-         bull = setInterval(bulletMove, 2)
-         fired=true
+            bullet.way.push(player.way)
+            bulletnum.push(bullets)
+            bullets++
+            bull = setInterval(bulletMove, 2)
+            fired = true
+         }
+
       }
-      
-   }
-   if (key.space === false){
-      fired=false
-   }
+      if (key.space === false) {
+         fired = false
+      }
    }
    function bulletMove() {
       for (let i = 0; i < bulletnum.length; i++) {
@@ -531,13 +539,46 @@ if (e.key === " ") {
          }
          if (bullet.way[i] === 4) {
             bullet.y[i] = bullet.y[i] - 5
+         } if (bullet.x[i] + bullet.width >= enemyList[0].x &&
+            bullet.x[i] <= enemyList[0].x + enemyList[0].width &&
+            bullet.y[i] + bullet.height >= enemyList[0].y &&
+            bullet.y[i] <= enemyList[0].y + enemyList[0].height) {
+         if( enemyList[0].alive===true){
+            enemyList[0].health = enemyList[0].health - 1
+            bullet.x.splice(i, 1)
+            bullet.y.splice(i, 1)
+            bullet.way.splice(i, 1)
+            bulletnum.splice(i, 1)
+         }}
+         if (bullet.x[i] >= windowWidth - bullet.width) {
+            bullet.x.splice(i, 1)
+            bullet.y.splice(i, 1)
+            bullet.way.splice(i, 1)
+            bulletnum.splice(i, 1)
+         }
+         if (bullet.x[i] < 0) {
+            bullet.x.splice(i, 1)
+            bullet.y.splice(i, 1)
+            bullet.way.splice(i, 1)
+            bulletnum.splice(i, 1)
+         }
+         if (bullet.y[i] >= windowHeight - bullet.height) {
+            bullet.x.splice(i, 1)
+            bullet.y.splice(i, 1)
+            bullet.way.splice(i, 1)
+            bulletnum.splice(i, 1)
+         } if (bullet.y[i] < 0) {
+            bullet.x.splice(i, 1)
+            bullet.y.splice(i, 1)
+            bullet.way.splice(i, 1)
+            bulletnum.splice(i, 1)
          }
 
-
+         console.log(bulletnum)
          btx.drawImage(bullet.sprite, 0, 0, 32, 32, bullet.x[i], bullet.y[i], 32, 32)
       }
    }
-   
+
 </script>
 
 </html>
