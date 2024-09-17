@@ -473,7 +473,7 @@
    function playerEnemyCollision() {
       utx.clearRect(0, 0, 3000, 3000)
       //collisions on all four sides
-
+  if(enemyList[0].alive===true){
       if (player.x + player.width >= enemyList[0].x &&
          player.x <= enemyList[0].x + enemyList[0].width &&
          player.y + player.height >= enemyList[0].y &&
@@ -492,7 +492,7 @@
             healthPoint.sy[3] = 100
             location.href = "index.html"
          }
-         if(enemyList[0].alive===true){
+       
          player.health = player.health - 1
          player.x = 0
          player.y = 0
