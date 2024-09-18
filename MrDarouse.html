@@ -44,6 +44,9 @@
    <canvas id="playerUi">
       <img id="healthPoints" hidden src="Health_Point.png">
    </canvas>
+   <canvas id="holeCanvas"></canvas>
+      <img id="holeSprite" hidden src="hole.png">
+   </canvas>
    </canvas>
    <canvas id="playerCanvas" height="0" width="0">
       <img id="playerSprite" hidden src="Darouse_Sprite.png">
@@ -76,6 +79,17 @@
       health: 4,
       sprite: document.getElementById("playerSprite"),
       way: 0,
+   }
+   var hole={
+      x:Math.floor(Math.random() * windowWidth - 180),
+      y:Math.floor(Math.random() * windowHeight - 180),
+      sx: 0,
+      sy: 0,
+      swidth: 180,
+      sheight: 180,
+      width: 180,
+      height: 180,
+      sprite:document.getElementById("holeSprite"),
    }
    //ui vars//
    var healthPoint = {
@@ -130,6 +144,8 @@
    var ptx = p.getContext("2d");
    var s = document.getElementById("slimeCanvas");
    var stx = s.getContext("2d");
+   var h = document.getElementById("holeCanvas");
+   var htx = h.getContext("2d");
    //Events//
    var key = {
       a: false,
@@ -154,6 +170,7 @@
    var bull
    setInterval(playerMove, 50)
    setInterval(fire, 1)
+   setInterval(holeObstacle, 1)
    setInterval(slimeWay, 10000)
    setInterval(enemyMove, 50)
    setInterval(playerBorder, 1)
@@ -229,6 +246,8 @@
          s.setAttribute("height", windowHeight + "px")
          b.setAttribute("width", windowWidth + "px")
          b.setAttribute("height", windowHeight + "px")
+         h.setAttribute("width", windowWidth + "px")
+         h.setAttribute("height", windowHeight + "px")
       }
    }
    //player Sprite//
@@ -492,10 +511,24 @@
             healthPoint.sy[3] = 100
             location.href = "index.html"
          }
-       
+         //a
+       if(player.way===1){
          player.health = player.health - 1
-         player.x = 0
-         player.y = 0
+         player.x=player.x+100
+       }//s
+       if(player.way===2){
+         player.health = player.health - 1
+         player.y=player.y-100
+       }//d
+       if(player.way===3){
+         player.health = player.health - 1
+         player.x=player.x-100
+      }//w
+      if(player.way===4){
+         player.health = player.health - 1
+         player.y=player.y+100
+       }
+     
          }
 
       }
@@ -573,12 +606,37 @@
             bullet.way.splice(i, 1)
             bulletnum.splice(i, 1)
          }
-
-         console.log(bulletnum)
          btx.drawImage(bullet.sprite, 0, 0, 32, 32, bullet.x[i], bullet.y[i], 32, 32)
       }
    }
+   function holeObstacle(){
+      htx.clearRect(0,0,3000,3000)
+      if (player.x + player.width >= hole.x &&
+         player.x <= hole.x + hole.width &&
+         player.y + player.height >= hole.y &&
+         player.y <= hole.y + hole.height) {
+       //a
+         if(player.way===1){
+        
+         player.x=player.x+10
+       }//s
+       if(player.way===2){
+         
+         player.y=player.y-10
+       }//d
+       if(player.way===3){
 
+         player.x=player.x-10
+      }//w
+      if(player.way===4){
+       
+         player.y=player.y+10
+       }
+       
+   }
+   console.log("hole")
+   htx.drawImage(hole.sprite, hole.sx, hole.sy, hole.swidth, hole.sheight, hole.x, hole.y, hole.width, hole.height)
+   }
 </script>
 
 </html>
