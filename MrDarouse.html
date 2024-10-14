@@ -31,6 +31,15 @@
          width: 500px;
          height: 500px;
       }
+
+      #bulletCanvas {
+         z-index: 9;
+      }
+
+      #playerUi {
+         z-index: 12;
+         ;
+      }
    </style>
 </head>
 
@@ -45,11 +54,11 @@
       <img id="healthPoints" hidden src="Health_Point.png">
    </canvas>
    <canvas id="holeCanvas"></canvas>
-      <img id="holeSprite" hidden src="hole.png">
+   <img id="holeSprite" hidden src="hole.png">
    </canvas>
    </canvas>
    <canvas id="playerCanvas" height="0" width="0">
-      <img id="playerSprite" hidden src="Darouse_Sprite.png">
+      <img id="playerSprite" hidden src="Darouse_Sprite big.png">
    </canvas>
    <canvas id="slimeCanvas" height="0" width="0">
       <img id="slimeSprite" hidden src="Slime_Sprite.png">
@@ -67,29 +76,36 @@
    var lighty = [Math.floor(Math.random() * windowHeight - 500), Math.floor(Math.random() * windowHeight - 500)]
    //player vars//
    var playerFrame = [1, 1, 1, 1];
+   var playerSpawnx = 93/2
+   var windowSpawnx = windowWidth/2
+   var playerSpawny = 144/2
+   var windowSpawny = windowHeight/2
    const player = {
-      x: 0,
-      y: 0,
+      x: windowSpawnx - playerSpawnx,
+      y: windowSpawny - playerSpawny,
       sx: 0,
       sy: 0,
-      swidth: 31,
-      sheight: 48,
+      swidth: 93,
+      sheight: 144,
       width: 93,
       height: 144,
       health: 4,
       sprite: document.getElementById("playerSprite"),
       way: 0,
+      start: false,
    }
-   var hole={
-      x:Math.floor(Math.random() * windowWidth - 180),
-      y:Math.floor(Math.random() * windowHeight - 180),
+
+
+   var hole = {
+      x: Math.floor(Math.random() * windowWidth - 180),
+      y: Math.floor(Math.random() * windowHeight - 180),
       sx: 0,
       sy: 0,
       swidth: 180,
       sheight: 180,
       width: 180,
       height: 180,
-      sprite:document.getElementById("holeSprite"),
+      sprite: document.getElementById("holeSprite"),
    }
    //ui vars//
    var healthPoint = {
@@ -255,180 +271,188 @@
       ptx.clearRect(0, 0, 3000, 3000)
       if (playerFrame[0] === 1) {
          playerFrame[0] = 2
-         ptx.drawImage(player.sprite, 0, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 0, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 2) {
          playerFrame[0] = 3
-         ptx.drawImage(player.sprite, 31, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 93, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 3) {
          playerFrame[0] = 4
-         ptx.drawImage(player.sprite, 62, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 186, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 4) {
          playerFrame[0] = 5
-         ptx.drawImage(player.sprite, 93, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 279, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 5) {
          playerFrame[0] = 6
-         ptx.drawImage(player.sprite, 124, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 372, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 6) {
          playerFrame[0] = 7
-         ptx.drawImage(player.sprite, 155, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 465, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 7) {
          playerFrame[0] = 8
-         ptx.drawImage(player.sprite, 186, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 558, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 8) {
          playerFrame[0] = 9
-         ptx.drawImage(player.sprite, 217, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 651, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[0] === 9) {
          playerFrame[0] = 1
-         ptx.drawImage(player.sprite, 248, 0, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 744, 0, 93, 144, player.x, player.y, player.width, player.height)
       }
    }
    function playerLeft() {
       ptx.clearRect(0, 0, 3000, 3000)
       if (playerFrame[1] === 1) {
          playerFrame[1] = 2
-         ptx.drawImage(player.sprite, 0, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 0, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 2) {
          playerFrame[1] = 3
-         ptx.drawImage(player.sprite, 31, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 93, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 3) {
          playerFrame[1] = 4
-         ptx.drawImage(player.sprite, 62, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 186, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 4) {
          playerFrame[1] = 5
-         ptx.drawImage(player.sprite, 93, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 279, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 5) {
          playerFrame[1] = 6
-         ptx.drawImage(player.sprite, 124, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 372, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 6) {
          playerFrame[1] = 7
-         ptx.drawImage(player.sprite, 155, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 465, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 7) {
          playerFrame[1] = 8
-         ptx.drawImage(player.sprite, 186, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 558, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 8) {
          playerFrame[1] = 9
-         ptx.drawImage(player.sprite, 217, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 651, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[1] === 9) {
          playerFrame[1] = 1
-         ptx.drawImage(player.sprite, 248, 48, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 744, 144, 93, 144, player.x, player.y, player.width, player.height)
       }
    }
    function playerDown() {
       ptx.clearRect(0, 0, 3000, 3000)
       if (playerFrame[2] === 1) {
          playerFrame[2] = 2
-         ptx.drawImage(player.sprite, 0, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 0, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 2) {
          playerFrame[2] = 3
-         ptx.drawImage(player.sprite, 31, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 93, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 3) {
          playerFrame[2] = 4
-         ptx.drawImage(player.sprite, 62, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 186, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 4) {
          playerFrame[2] = 5
-         ptx.drawImage(player.sprite, 93, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 279, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 5) {
          playerFrame[2] = 6
-         ptx.drawImage(player.sprite, 124, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 372, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 6) {
          playerFrame[2] = 7
-         ptx.drawImage(player.sprite, 155, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 465, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 7) {
          playerFrame[2] = 8
-         ptx.drawImage(player.sprite, 186, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 558, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 8) {
          playerFrame[2] = 9
-         ptx.drawImage(player.sprite, 217, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 651, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[2] === 9) {
          playerFrame[2] = 1
-         ptx.drawImage(player.sprite, 248, 96, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 744, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
    }
    function playerRight() {
       ptx.clearRect(0, 0, 3000, 3000)
       if (playerFrame[3] === 1) {
          playerFrame[3] = 2
-         ptx.drawImage(player.sprite, 0, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 0, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 2) {
          playerFrame[3] = 3
-         ptx.drawImage(player.sprite, 31, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 93, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 3) {
          playerFrame[3] = 4
-         ptx.drawImage(player.sprite, 62, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 186, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 4) {
          playerFrame[3] = 5
-         ptx.drawImage(player.sprite, 93, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 279, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 5) {
          playerFrame[3] = 6
-         ptx.drawImage(player.sprite, 124, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 372, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 6) {
          playerFrame[3] = 7
-         ptx.drawImage(player.sprite, 155, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 465, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 7) {
          playerFrame[3] = 8
-         ptx.drawImage(player.sprite, 186, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 558, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 8) {
          playerFrame[3] = 9
-         ptx.drawImage(player.sprite, 217, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 651, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
       else if (playerFrame[3] === 9) {
          playerFrame[3] = 1
-         ptx.drawImage(player.sprite, 248, 144, 31, 48, player.x, player.y, player.width, player.height)
+         ptx.drawImage(player.sprite, 744, 432, 93, 144, player.x, player.y, player.width, player.height)
       }
    }
 
    //playerMovment
    function playerMove() {
-      if (key.a === true) {
-         player.x = player.x - 10
-         player.way = 1
-         playerLeft()
-      }
-      if (key.s === true) {
-         player.y = player.y + 10
-         player.way = 2
-         playerDown()
-      }
       if (key.d === true) {
          player.x = player.x + 10
          player.way = 3
          playerRight()
+         player.start = true
       }
-      if (key.w === true) {
+      else if (key.a === true) {
+         player.x = player.x - 10
+         player.way = 1
+         playerLeft()
+         player.start = true
+      }
+      else if (key.s === true) {
+         player.y = player.y + 10
+         player.way = 2
+         playerDown()
+         player.start = true
+      }
+      else if (key.w === true) {
          player.way = 4
          player.y = player.y - 10
          playerUp()
+         player.start = true
+      }
+      if (player.start === false) {
+
+         ptx.drawImage(player.sprite, 0, 288, 93, 144, player.x, player.y, player.width, player.height)
       }
    }
    function playerBorder() {
@@ -492,43 +516,43 @@
    function playerEnemyCollision() {
       utx.clearRect(0, 0, 3000, 3000)
       //collisions on all four sides
-  if(enemyList[0].alive===true){
-      if (player.x + player.width >= enemyList[0].x &&
-         player.x <= enemyList[0].x + enemyList[0].width &&
-         player.y + player.height >= enemyList[0].y &&
-         player.y <= enemyList[0].y + enemyList[0].height) {
-        
-         if (player.health === 4) {
-            healthPoint.sy[0] = 100
-         }
-         if (player.health === 3) {
-            healthPoint.sy[1] = 100
-         }
-         if (player.health === 2) {
-            healthPoint.sy[2] = 100
-         }
-         if (player.health === 1) {
-            healthPoint.sy[3] = 100
-            location.href = "index.html"
-         }
-         //a
-       if(player.way===1){
-         player.health = player.health - 1
-         player.x=player.x+100
-       }//s
-       if(player.way===2){
-         player.health = player.health - 1
-         player.y=player.y-100
-       }//d
-       if(player.way===3){
-         player.health = player.health - 1
-         player.x=player.x-100
-      }//w
-      if(player.way===4){
-         player.health = player.health - 1
-         player.y=player.y+100
-       }
-     
+      if (enemyList[0].alive === true) {
+         if (player.x + player.width >= enemyList[0].x &&
+            player.x <= enemyList[0].x + enemyList[0].width &&
+            player.y + player.height >= enemyList[0].y &&
+            player.y <= enemyList[0].y + enemyList[0].height) {
+
+            if (player.health === 4) {
+               healthPoint.sy[0] = 100
+            }
+            if (player.health === 3) {
+               healthPoint.sy[1] = 100
+            }
+            if (player.health === 2) {
+               healthPoint.sy[2] = 100
+            }
+            if (player.health === 1) {
+               healthPoint.sy[3] = 100
+               location.href = "index.html"
+            }
+            //a
+            if (player.way === 1) {
+               player.health = player.health - 1
+               player.x = player.x + 100
+            }//s
+            if (player.way === 2) {
+               player.health = player.health - 1
+               player.y = player.y - 100
+            }//d
+            if (player.way === 3) {
+               player.health = player.health - 1
+               player.x = player.x - 100
+            }//w
+            if (player.way === 4) {
+               player.health = player.health - 1
+               player.y = player.y + 100
+            }
+
          }
 
       }
@@ -537,7 +561,7 @@
       }
    }
    //bullet movement//
-   
+
    function fire() {
       if (key.space === true) {
          if (fired === false) {
@@ -576,13 +600,14 @@
             bullet.x[i] <= enemyList[0].x + enemyList[0].width &&
             bullet.y[i] + bullet.height >= enemyList[0].y &&
             bullet.y[i] <= enemyList[0].y + enemyList[0].height) {
-         if( enemyList[0].alive===true){
-            enemyList[0].health = enemyList[0].health - 1
-            bullet.x.splice(i, 1)
-            bullet.y.splice(i, 1)
-            bullet.way.splice(i, 1)
-            bulletnum.splice(i, 1)
-         }}
+            if (enemyList[0].alive === true) {
+               enemyList[0].health = enemyList[0].health - 1
+               bullet.x.splice(i, 1)
+               bullet.y.splice(i, 1)
+               bullet.way.splice(i, 1)
+               bulletnum.splice(i, 1)
+            }
+         }
          if (bullet.x[i] >= windowWidth - bullet.width) {
             bullet.x.splice(i, 1)
             bullet.y.splice(i, 1)
@@ -609,33 +634,60 @@
          btx.drawImage(bullet.sprite, 0, 0, 32, 32, bullet.x[i], bullet.y[i], 32, 32)
       }
    }
-   function holeObstacle(){
-      htx.clearRect(0,0,3000,3000)
-      if (player.x + player.width >= hole.x &&
-         player.x <= hole.x + hole.width &&
+   function holeObstacle() {
+      htx.clearRect(0, 0, 3000, 3000)
+      if (hole.x<0){
+         hole.x=Math.floor(Math.random() * windowWidth - 180)
+      }
+      if (hole.y<0){
+         hole.y=Math.floor(Math.random() * windowHeight - 180)
+      }
+      if (player.x + player.width - 20 >= hole.x &&
+         player.x + 20 <= hole.x + hole.width &&
          player.y + player.height >= hole.y &&
-         player.y <= hole.y + hole.height) {
-       //a
-         if(player.way===1){
-        
-         player.x=player.x+10
-       }//s
-       if(player.way===2){
-         
-         player.y=player.y-10
-       }//d
-       if(player.way===3){
+         player.y + 100 <= hole.y + hole.height) {
+         //a
+         if (player.way === 1) {
 
-         player.x=player.x-10
-      }//w
-      if(player.way===4){
-       
-         player.y=player.y+10
-       }
-       
-   }
-   console.log("hole")
-   htx.drawImage(hole.sprite, hole.sx, hole.sy, hole.swidth, hole.sheight, hole.x, hole.y, hole.width, hole.height)
+            player.x = player.x + 10
+         }//s
+         if (player.way === 2) {
+
+            player.y = player.y - 10
+         }//d
+         if (player.way === 3) {
+
+            player.x = player.x - 10
+         }//w
+         if (player.way === 4) {
+
+            player.y = player.y + 10
+         }
+
+      }
+      if (enemyList[0].x + enemyList[0].width >= hole.x &&
+         enemyList[0].x <= hole.x + hole.width &&
+         enemyList[0].y + enemyList[0].height >= hole.y &&
+         enemyList[0].y <= hole.y + hole.height) {
+         //Down
+         if (enemyList[0].way = 1) {
+            enemyList[0].y = enemyList[0].y - enemyList[0].speed
+         }
+         //up
+         if (enemyList[0].way = 2) {
+            enemyList[0].y = enemyList[0].y + enemyList[0].speed
+         }
+         //right
+         if (enemyList[0].way = 3) {
+            enemyList[0].x = enemyList[0].x - enemyList[0].speed
+         }
+         //left
+         if (enemyList[0].way = 4) {
+            enemyList[0].x = enemyList[0].x + enemyList[0].speed
+         }
+      }
+      console.log("hole")
+      htx.drawImage(hole.sprite, hole.sx, hole.sy, hole.swidth, hole.sheight, hole.x, hole.y, hole.width, hole.height)
    }
 </script>
 
