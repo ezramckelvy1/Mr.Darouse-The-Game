@@ -295,11 +295,12 @@
          background.push('SandStone_Floor_Texture.png')
       }
       if (backnum === 3) {
-         background.push('Brick_Floor_Texture.png')
+         background.push('Tiles_Floor_Texture.png')
       }
       if (backnum === 4) {
          background.push('Wood_Floor_Texture.png')
       }
+      
       document.body.style.backgroundImage = "url(" + background[0] + ")"
       enemyspawn()
       lightx = [Math.floor(Math.random() * windowWidth - 500), Math.floor(Math.random() * windowWidth - 500)]
