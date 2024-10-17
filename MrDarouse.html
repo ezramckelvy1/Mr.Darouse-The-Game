@@ -36,7 +36,7 @@
       }
 
       #playerUi {
-         z-index: 12;
+         z-index: 1;
          ;
       }
    </style>
@@ -59,8 +59,9 @@
    <canvas id="playerCanvas" height="0" width="0">
       <img id="playerSprite" hidden src="Darouse_Sprite big.png">
    </canvas>
-   <canvas id="slimeCanvas" height="0" width="0">
+   <canvas id="EnemyCanvas" height="0" width="0">
       <img id="slimeSprite" hidden src="Slime_Sprite.png">
+      <img id="snailSprite" hidden src="Snail_Sprite.png">
    </canvas>
 </body>
 <script>
@@ -147,7 +148,7 @@
    let utx = u.getContext("2d");
    let p = document.getElementById("playerCanvas");
    let ptx = p.getContext("2d");
-   let s = document.getElementById("slimeCanvas");
+   let s = document.getElementById("EnemyCanvas");
    let stx = s.getContext("2d");
    let h = document.getElementById("holeCanvas");
    let htx = h.getContext("2d");
@@ -198,29 +199,35 @@
             health: 10,
             sx: 0,
             sy: 0,
+            collumn:8,
+            row:4,
             swidth: 50,
             sheight: 28,
             way: 1,
             speed: 1,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
+            damage:1,
          }
       }
       if (enemynum === 2) {
          enemy = {
-            x: Math.floor(Math.random() * windowWidth-50) + 1,
-            y: Math.floor(Math.random() * windowHeight-28) + 1,
-            width: 50,
-            height: 28,
-            health: 10,
+            x: Math.floor(Math.random() * windowWidth-64) + 1,
+            y: Math.floor(Math.random() * windowHeight-67) + 1,
+            width: 64,
+            height: 67,
+            health: 20,
             sx: 0,
             sy: 0,
-            swidth: 50,
-            sheight: 28,
+            collumn:8,
+            row:4,
+            swidth: 64,
+            sheight: 67,
             way: 1,
             speed: 1,
-            sprite: document.getElementById("slimeSprite"),
+            sprite: document.getElementById("snailSprite"),
             alive: true,
+            damage:4,
          }
       }
       if (enemynum === 3) {
@@ -232,12 +239,15 @@
             health: 10,
             sx: 0,
             sy: 0,
+            collumn:8,
+            row:4,
             swidth: 50,
             sheight: 28,
             way: 1,
             speed: 1,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
+            damage:1,
          }
       }
       if (enemynum === 4) {
@@ -249,12 +259,15 @@
             health: 10,
             sx: 0,
             sy: 0,
+            collumn:8,
+            row:4,
             swidth: 50,
             sheight: 28,
             way: 1,
             speed: 1,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
+            damage:1,
          }
       }
       return (enemy)
@@ -597,7 +610,7 @@
       for (let i = 0; i <= enemyList.length - 1; i++) {
          stx.clearRect(enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height)
          enemyList[i].sx = enemyList[i].sx + enemyList[i].width
-         if (enemyList[i].sx === 400) {
+         if (enemyList[i].sx === enemyList[i].collumn*enemyList[i].width) {
             enemyList[i].sx = 0
          }
          if (enemyList[i].way === 1) {
@@ -608,21 +621,21 @@
             }
          }
          else if (enemyList[i].way === 2) {
-            enemyList[i].sy = 28
+            enemyList[i].sy = enemyList[i].sheight
             enemyList[i].y = enemyList[i].y - enemyList[i].speed
             if (enemyList[i].y <= 0) {
                enemyList[i].y = enemyList[i].speed
             }
          }
          else if (enemyList[i].way === 3) {
-            enemyList[i].sy = 56
+            enemyList[i].sy = enemyList[i].sheight*2
             enemyList[i].x = enemyList[i].x + enemyList[i].speed
             if (enemyList[i].x >= windowWidth - enemyList[i].width) {
                enemyList[i].x = enemyList[i].x - enemyList[i].speed
             }
          }
          else if (enemyList[i].way === 4) {
-            enemyList[i].sy = 84;
+            enemyList[i].sy = enemyList[i].sheight*3
             enemyList[i].x = enemyList[i].x - enemyList[i].speed
             if (enemyList[i].x <= 0) {
                enemyList[i].x = enemyList[i].speed
@@ -650,37 +663,40 @@
                player.y + player.height >= enemyList[i].y &&
                player.y <= enemyList[i].y + enemyList[i].height) {
 
-               if (player.health === 4) {
-                  healthPoint.sy[0] = 100
-               }
-               if (player.health === 3) {
-                  healthPoint.sy[1] = 100
-               }
-               if (player.health === 2) {
-                  healthPoint.sy[2] = 100
-               }
-               if (player.health === 1) {
-                  healthPoint.sy[3] = 100
-                  location.href = "index.html"
-               }
+                 
+               
+               
+              
                //a
                if (player.way === 1) {
-                  player.health = player.health - 1
+                  player.health = player.health - enemyList[i].damage
                   player.x = player.x + 100
                }//s
                if (player.way === 2) {
-                  player.health = player.health - 1
+                  player.health = player.health - enemyList[i].damage
                   player.y = player.y - 100
                }//d
                if (player.way === 3) {
-                  player.health = player.health - 1
+                  player.health = player.health - enemyList[i].damage
                   player.x = player.x - 100
                }//w
                if (player.way === 4) {
-                  player.health = player.health - 1
+                  player.health = player.health - enemyList[i].damage
                   player.y = player.y + 100
                }
-
+               if (player.health < 1) {
+                  healthPoint.sy[3] = 100
+                  location.href = "index.html"
+               }
+               if (player.health < 2) {
+                  healthPoint.sy[2] = 100
+               }
+               if (player.health <3) {
+                  healthPoint.sy[1] = 100
+               }
+               if (player.health <4) {
+                  healthPoint.sy[0] = 100
+               }
             }
          }
 
