@@ -44,7 +44,7 @@
 
 <body>
    <title>Mr.Darouse The Game</title>
-   <canvas id="bulletCanvas" >
+   <canvas id="bulletCanvas">
       <img id="bullet" hidden src="Orb.png">
    </canvas>
    <img class="light" src="Mix_Light.png">
@@ -95,7 +95,7 @@
       sprite: document.getElementById("playerSprite"),
       way: 0,
       start: false,
-      speed:15,
+      speed: 15,
    }
 
 
@@ -139,8 +139,8 @@
    //enemy vars//
    let enemycount = 0
    let enemyList = []
-   let enemy={}
-   let enemynum=0
+   let enemy = {}
+   let enemynum = 0
    //canvas vars//
 
    let b = document.getElementById("bulletCanvas");
@@ -178,99 +178,109 @@
    setInterval(playerMove, 50)
    setInterval(fire, 1)
    setInterval(holeObstacle, 1)
+   setInterval(enemyInsideSpawn, 1)
    setInterval(enemyWay, 10000)
    setInterval(enemyMove, 50)
    setInterval(playerBorder, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
    setInterval(playerEnemyCollision, 1)
- 
+
 
    //functions//
    //lights positions//
- 
+
    function enemycreate() {
       enemynum = Math.floor(Math.random() * 4) + 1
       if (enemynum === 1) {
          enemy = {
-            x: Math.floor(Math.random() * windowWidth-50) + 1,
-            y: Math.floor(Math.random() * windowHeight-28) + 1,
+            x: Math.floor(Math.random() * windowWidth - 50) + 1,
+            y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 50,
             height: 28,
             health: 10,
             sx: 0,
             sy: 0,
-            collumn:8,
-            row:4,
+            collumn: 8,
+            row: 4,
             swidth: 50,
             sheight: 28,
             way: 1,
             speed: 1,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
-            damage:1,
+            damage: 1,
+            fly: false,
+            spawn: false,
+
          }
       }
       if (enemynum === 2) {
          enemy = {
-            x: Math.floor(Math.random() * windowWidth-64) + 1,
-            y: Math.floor(Math.random() * windowHeight-67) + 1,
+            x: Math.floor(Math.random() * windowWidth - 64) + 1,
+            y: Math.floor(Math.random() * windowHeight - 67) + 1,
             width: 64,
             height: 67,
             health: 20,
             sx: 0,
             sy: 0,
-            collumn:8,
-            row:4,
+            collumn: 8,
+            row: 4,
             swidth: 64,
             sheight: 67,
             way: 1,
             speed: 1,
             sprite: document.getElementById("snailSprite"),
             alive: true,
-            damage:4,
+            damage: 4,
+            fly: false,
+            spawn: false,
+
          }
       }
       if (enemynum === 3) {
          enemy = {
-            x: Math.floor(Math.random() * windowWidth-54) + 1,
-            y: Math.floor(Math.random() * windowHeight-73) + 1,
+            x: Math.floor(Math.random() * windowWidth - 54) + 1,
+            y: Math.floor(Math.random() * windowHeight - 73) + 1,
             width: 54,
             height: 73,
             health: 30,
             sx: 0,
             sy: 0,
-            collumn:8,
-            row:4,
+            collumn: 8,
+            row: 4,
             swidth: 54,
             sheight: 73,
             way: 1,
             speed: 4,
             sprite: document.getElementById("eyeSprite"),
             alive: true,
-            damage:2,
-            fly:true,
+            damage: 2,
+            fly: true,
+            spawn: false,
+
          }
       }
       if (enemynum === 4) {
          enemy = {
-            x: Math.floor(Math.random() * windowWidth-50) + 1,
-            y: Math.floor(Math.random() * windowHeight-28) + 1,
+            x: Math.floor(Math.random() * windowWidth - 50) + 1,
+            y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 50,
             height: 28,
             health: 10,
             sx: 0,
             sy: 0,
-            collumn:8,
-            row:4,
+            collumn: 8,
+            row: 4,
             swidth: 50,
             sheight: 28,
             way: 1,
             speed: 1,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
-            damage:1,
-            fly:false,
+            damage: 1,
+            fly: false,
+            spawn: false,
          }
       }
       return (enemy)
@@ -297,9 +307,31 @@
          enemyList.push(enemycreate())
          enemyList.push(enemycreate())
       }
-      console.log(enemyList)
-   }
 
+   }
+   function enemyInsideSpawn() {
+      for (let i = 0; i < enemyList.length; i++) {
+         if (enemyList[i].spawn === false) {
+            if (enemyList[i].x + enemyList[i].width >= hole.x - 5 &&
+               enemyList[i].x <= hole.x - 5 + hole.width + 5 &&
+               enemyList[i].y + enemyList[i].height >= hole.y - 5 &&
+               enemyList[i].y <= hole.y - 5 + hole.height + 5) {
+                  stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+               enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
+               enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
+            }
+            if (player.x + player.width >= enemyList[i].x &&
+               player.x <= enemyList[i] + enemyList[i].width &&
+               player.y + player.height >= enemyList[i].y &&
+               player.y <= enemyList[i].y + enemyList[i].height) {
+                  stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+               enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
+               enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
+            }
+            enemyList.spawn = true
+         }
+      }
+   }
    function backgroundCreate() {
       stx.clearRect(0, 0, 2000, 2000)
       let backnum = Math.floor(Math.random() * 4) + 1
@@ -316,7 +348,7 @@
       if (backnum === 4) {
          background.push('Wood_Floor_Texture.png')
       }
-      
+
       document.body.style.backgroundImage = "url(" + background[0] + ")"
       enemyspawn()
       lightx = [Math.floor(Math.random() * windowWidth - 500), Math.floor(Math.random() * windowWidth - 500)]
@@ -324,8 +356,15 @@
       lightPosition()
       hole.x = Math.floor(Math.random() * windowWidth - 180)
       hole.y = Math.floor(Math.random() * windowHeight - 180)
+      if (player.x + player.width - 20 >= hole.x &&
+         player.x + 20 <= hole.x + hole.width &&
+         player.y + player.height >= hole.y &&
+         player.y + 100 <= hole.y + hole.height) {
+         hole.x = Math.floor(Math.random() * windowWidth - 180)
+         hole.y = Math.floor(Math.random() * windowHeight - 180)
+      }
       holeObstacle()
-     
+
 
    }
    backgroundCreate()
@@ -568,7 +607,7 @@
          player.start = true
       }
       else if (key.a === true) {
-         player.x = player.x -player.speed
+         player.x = player.x - player.speed
          player.way = 1
          playerLeft()
          player.start = true
@@ -611,9 +650,9 @@
    }
    function enemyMove() {
       for (let i = 0; i <= enemyList.length - 1; i++) {
-         stx.clearRect(enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height)
+         stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
          enemyList[i].sx = enemyList[i].sx + enemyList[i].width
-         if (enemyList[i].sx === enemyList[i].collumn*enemyList[i].width) {
+         if (enemyList[i].sx === enemyList[i].collumn * enemyList[i].width) {
             enemyList[i].sx = 0
          }
          if (enemyList[i].way === 1) {
@@ -631,14 +670,14 @@
             }
          }
          else if (enemyList[i].way === 3) {
-            enemyList[i].sy = enemyList[i].sheight*2
+            enemyList[i].sy = enemyList[i].sheight * 2
             enemyList[i].x = enemyList[i].x + enemyList[i].speed
             if (enemyList[i].x >= windowWidth - enemyList[i].width) {
                enemyList[i].x = enemyList[i].x - enemyList[i].speed
             }
          }
          else if (enemyList[i].way === 4) {
-            enemyList[i].sy = enemyList[i].sheight*3
+            enemyList[i].sy = enemyList[i].sheight * 3
             enemyList[i].x = enemyList[i].x - enemyList[i].speed
             if (enemyList[i].x <= 0) {
                enemyList[i].x = enemyList[i].speed
@@ -666,10 +705,10 @@
                player.y + player.height >= enemyList[i].y &&
                player.y <= enemyList[i].y + enemyList[i].height) {
 
-                 
-               
-               
-              
+
+
+
+
                //a
                if (player.way === 1) {
                   player.health = player.health - enemyList[i].damage
@@ -694,10 +733,10 @@
                if (player.health < 2) {
                   healthPoint.sy[2] = 100
                }
-               if (player.health <3) {
+               if (player.health < 3) {
                   healthPoint.sy[1] = 100
                }
-               if (player.health <4) {
+               if (player.health < 4) {
                   healthPoint.sy[0] = 100
                }
             }
@@ -814,27 +853,37 @@
 
       }
       for (let i = 0; i <= enemyList.length - 1; i++) {
-         if (enemyList[i].x + enemyList[i].width >= hole.x &&
-            enemyList[i].x <= hole.x + hole.width &&
-            enemyList[i].y + enemyList[i].height >= hole.y &&
-            enemyList[i].y <= hole.y + hole.height) {
-            //Down
-            if (enemyList[i].way = 1) {
-               enemyList[i].y = enemyList[i].y - enemyList[i].speed
-            }
-            //up
-            if (enemyList[i].way = 2) {
-               enemyList[i].y = enemyList[i].y + enemyList[i].speed
-            }
-            //right
-            if (enemyList[i].way = 3) {
-               enemyList[i].x = enemyList[i].x - enemyList[i].speed
-            }
-            //left
-            if (enemyList[i].way = 4) {
-               enemyList[i].x = enemyList[i].x + enemyList[i].speed
+         if (enemyList[i].fly === false) {
+            if (enemyList[i].x + enemyList[i].width >= hole.x &&
+               enemyList[i].x <= hole.x + hole.width &&
+               enemyList[i].y + enemyList[i].height >= hole.y &&
+               enemyList[i].y <= hole.y + hole.height) {
+
+               //Down
+               if (enemyList[i].way === 1) {
+                  enemyList[i].y = enemyList[i].y - enemyList[i].speed
+                  console.log("hole")
+
+               }
+               //up
+               if (enemyList[i].way === 2) {
+                  enemyList[i].y = enemyList[i].y + enemyList[i].speed
+                  console.log("hole")
+
+               }
+               //right
+               if (enemyList[i].way === 3) {
+                  enemyList[i].x = enemyList[i].x - enemyList[i].speed
+                  console.log("hole")
+               }
+               //left
+               if (enemyList[i].way === 4) {
+                  enemyList[i].x = enemyList[i].x + enemyList[i].speed
+                  console.log("hole")
+               }
             }
          }
+
       }
 
       htx.drawImage(hole.sprite, hole.sx, hole.sy, hole.swidth, hole.sheight, hole.x, hole.y, hole.width, hole.height)
@@ -842,7 +891,7 @@
    function allDead() {
       let dead = 0
       console.log(enemyList.alive)
-      for (let i = 0; i <= enemyList.length-1; i++) {
+      for (let i = 0; i <= enemyList.length - 1; i++) {
          if (enemyList[i].alive === false) {
             dead = dead + 1
          }
