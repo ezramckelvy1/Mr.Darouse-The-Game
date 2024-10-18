@@ -14,8 +14,8 @@
          overflow: hidden;
       }
 
-      Canvas {
-         z-index: 1;
+      canvas {
+         z-index: 2;
          position: absolute;
          left: 0;
          top: 0;
@@ -31,35 +31,39 @@
          height: 500px;
       }
 
-      #bulletCanvas {
+      #bulletcanvas {
          z-index: 9;
       }
 
       #playerUi {
+         z-index: 2;
+
+      }
+
+      #holecanvas {
          z-index: 1;
-         ;
       }
    </style>
 </head>
 
 <body>
    <title>Mr.Darouse The Game</title>
-   <canvas id="bulletCanvas">
+   <canvas id="bulletcanvas">
       <img id="bullet" hidden src="Orb.png">
    </canvas>
    <img class="light" src="Mix_Light.png">
    <img class="light" src="Mix_Light.png">
    <canvas id="playerUi">
       <img id="healthPoints" hidden src="Health_Point.png">
+      <img id="Ammo" hidden src="Ammo.png">
    </canvas>
-   <canvas id="holeCanvas"></canvas>
+   <canvas id="holecanvas"></canvas>
    <img id="holeSprite" hidden src="hole.png">
    </canvas>
-   </canvas>
-   <canvas id="playerCanvas" height="0" width="0">
+   <canvas id="playercanvas" height="0" width="0">
       <img id="playerSprite" hidden src="Darouse_Sprite.png">
    </canvas>
-   <canvas id="EnemyCanvas" height="0" width="0">
+   <canvas id="Enemycanvas" height="0" width="0">
       <img id="slimeSprite" hidden src="Slime_Sprite.png">
       <img id="snailSprite" hidden src="Snail_Sprite.png">
       <img id="eyeSprite" hidden src="Mummy_Eye_Sprite.png">
@@ -71,7 +75,7 @@
    let background = []
    let windowWidth = window.innerWidth;
    let windowHeight = window.innerHeight;
-   let ScreenChange
+   let ScreenChange = 0
    //light vars//
    let light = document.getElementsByClassName("light")
    let lightx = [Math.floor(Math.random() * windowWidth - 500), Math.floor(Math.random() * windowWidth - 500)]
@@ -93,9 +97,10 @@
       height: 144,
       health: 4,
       sprite: document.getElementById("playerSprite"),
-      way: 0,
+      way: 2,
       start: false,
       speed: 15,
+      ammo: 15,
    }
 
 
@@ -122,6 +127,17 @@
       sheight: 100,
       sprite: document.getElementById("healthPoints"),
    }
+   let Ammo = {
+      x: [windowWidth - 50, windowWidth - 105, windowWidth - 160, windowWidth - 215, windowWidth - 270, windowWidth - 325, windowWidth - 380, windowWidth - 435, windowWidth - 490, windowWidth - 545,],
+      y: 110,
+      sx: 0,
+      sy: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      height: 50,
+      width: 50,
+      swidth: 50,
+      sheight: 50,
+      sprite: document.getElementById("Ammo"),
+   }
    //bullet vars//
    let bullet = {
       x: [],
@@ -143,15 +159,15 @@
    let enemynum = 0
    //canvas vars//
 
-   let b = document.getElementById("bulletCanvas");
+   let b = document.getElementById("bulletcanvas");
    let btx = b.getContext("2d");
    let u = document.getElementById("playerUi");
    let utx = u.getContext("2d");
-   let p = document.getElementById("playerCanvas");
+   let p = document.getElementById("playercanvas");
    let ptx = p.getContext("2d");
-   let s = document.getElementById("EnemyCanvas");
+   let s = document.getElementById("Enemycanvas");
    let stx = s.getContext("2d");
-   let h = document.getElementById("holeCanvas");
+   let h = document.getElementById("holecanvas");
    let htx = h.getContext("2d");
    //Events//
    let key = {
@@ -181,10 +197,12 @@
    setInterval(enemyInsideSpawn, 1)
    setInterval(enemyWay, 10000)
    setInterval(enemyMove, 50)
+   setInterval(AmmoGain, 3000)
    setInterval(playerBorder, 1)
    setInterval(ScreenSize, 1)
    setInterval(lightPosition, 1)
    setInterval(playerEnemyCollision, 1)
+   setInterval(AmmoUi, 1)
 
 
    //functions//
@@ -198,7 +216,7 @@
             y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 50,
             height: 28,
-            health: 10,
+            health: 5,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -221,7 +239,7 @@
             y: Math.floor(Math.random() * windowHeight - 67) + 1,
             width: 64,
             height: 67,
-            health: 20,
+            health: 10,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -244,7 +262,7 @@
             y: Math.floor(Math.random() * windowHeight - 73) + 1,
             width: 54,
             height: 73,
-            health: 30,
+            health: 15,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -267,7 +285,7 @@
             y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 50,
             height: 28,
-            health: 10,
+            health: 5,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -316,7 +334,7 @@
                enemyList[i].x <= hole.x - 5 + hole.width + 5 &&
                enemyList[i].y + enemyList[i].height >= hole.y - 5 &&
                enemyList[i].y <= hole.y - 5 + hole.height + 5) {
-                  stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+               stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
                enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
                enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
             }
@@ -324,11 +342,11 @@
                player.x <= enemyList[i] + enemyList[i].width &&
                player.y + player.height >= enemyList[i].y &&
                player.y <= enemyList[i].y + enemyList[i].height) {
-                  stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+               stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
                enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
                enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
             }
-            enemyList.spawn = true
+            enemyList[i].spawn = true
          }
       }
    }
@@ -365,6 +383,7 @@
       }
       holeObstacle()
 
+      player.ammo = 10
 
    }
    backgroundCreate()
@@ -650,7 +669,7 @@
    }
    function enemyMove() {
       for (let i = 0; i <= enemyList.length - 1; i++) {
-         stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+         stx.clearRect(enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height)
          enemyList[i].sx = enemyList[i].sx + enemyList[i].width
          if (enemyList[i].sx === enemyList[i].collumn * enemyList[i].width) {
             enemyList[i].sx = 0
@@ -696,7 +715,7 @@
 
 
    function playerEnemyCollision() {
-      utx.clearRect(0, 0, 3000, 3000)
+
       //collisions on all four sides
       for (let i = 0; i <= enemyList.length - 1; i++) {
          if (enemyList[i].alive === true) {
@@ -744,6 +763,7 @@
 
       }
       for (let i = 0; i <= 4; i++) {
+         utx.clearRect(healthPoint.x[i], healthPoint.y, healthPoint.width, healthPoint.height)
          utx.drawImage(healthPoint.sprite, healthPoint.sx, healthPoint.sy[i], healthPoint.swidth, healthPoint.sheight, healthPoint.x[i], healthPoint.y, healthPoint.width, healthPoint.height,)
       }
    }
@@ -752,19 +772,29 @@
    function fire() {
       if (key.space === true) {
          if (fired === false) {
-            bullet.way.push(player.way)
-            clearInterval(bull)
-            bullet.x.push(player.x + 30)
-            bullet.y.push(player.y + 72)
-            bulletnum.push(bullets)
-            bullets++
-            bull = setInterval(bulletMove, 2)
-            fired = true
+            if (player.ammo > 0) {
+               player.ammo = player.ammo - 1
+               bullet.way.push(player.way)
+               clearInterval(bull)
+               bullet.x.push(player.x + 30)
+               bullet.y.push(player.y + 72)
+               bulletnum.push(bullets)
+               bullets++
+               bull = setInterval(bulletMove, 2)
+               fired = true
+            }
          }
 
-      }
-      if (key.space === false) {
+      } else {
          fired = false
+      }
+   }
+   function AmmoGain() {
+      if (player.ammo <= 10) {
+         player.ammo = player.ammo + 1
+      }
+      else{
+         player.ammo=10
       }
    }
    function bulletMove() {
@@ -901,6 +931,73 @@
          backgroundCreate()
       }
 
+   }
+   function AmmoUi() {
+      if (player.ammo < 1) {
+
+         Ammo.sy[9] = 50
+      } else {
+         Ammo.sy[9] = 0
+      }
+      if (player.ammo < 2) {
+         Ammo.sy[8] = 50
+      }
+      else {
+         Ammo.sy[8] = 0
+      }
+      if (player.ammo < 3) {
+         Ammo.sy[7] = 50
+      }
+      else {
+         Ammo.sy[7] = 0
+      }
+      if (player.ammo < 4) {
+         Ammo.sy[6] = 50
+      }
+      else {
+         Ammo.sy[6] = 0
+      }
+      if (player.ammo < 5) {
+         Ammo.sy[5] = 50
+      }
+      else {
+         Ammo.sy[5] = 0
+      }
+      if (player.ammo < 6) {
+         Ammo.sy[4] = 50
+      }
+      else {
+         Ammo.sy[4] = 0
+      }
+      if (player.ammo < 7) {
+         Ammo.sy[3] = 50
+      }
+      else {
+         Ammo.sy[3] = 0
+      }
+      if (player.ammo < 8) {
+         Ammo.sy[2] = 50
+      }
+      else {
+         Ammo.sy[2] = 0
+      }
+      if (player.ammo < 9) {
+         Ammo.sy[1] = 50
+      }
+      else {
+         Ammo.sy[1] = 0
+      }
+      if (player.ammo < 10) {
+         Ammo.sy[0] = 50
+      }
+      else {
+         Ammo.sy[0] = 0
+      }
+      for (let i = 0; i < Ammo.sy.length; i++) {
+         utx.clearRect(Ammo.x[i], Ammo.y, Ammo.width, Ammo.height)
+         utx.drawImage(Ammo.sprite, Ammo.sx, Ammo.sy[i], Ammo.swidth, Ammo.sheight, Ammo.x[i], Ammo.y, Ammo.width, Ammo.height)
+
+      }
    }
 </script>
 
