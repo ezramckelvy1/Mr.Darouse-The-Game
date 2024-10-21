@@ -19,8 +19,6 @@
 
     #Title {
       position: absolute;
-      left: 25vh;
-      top: 20vh;
       -webkit-user-drag: none;
       user-select: none;
 
@@ -30,13 +28,7 @@
     #Start {
       
       background-image: url("RedBrick_Button.png");
-      width: 500px;
-      height: 125px;
       position: absolute;
-      left: 55vh;
-      bottom: 25vh;
-      text-align: center;
-      color: black;
       font-size: 100px;
       cursor: url;
     }
@@ -52,6 +44,34 @@
 </div>
 </body>
 <script>
+  let title={
+    img:document.getElementById("Title"),
+    x:0,
+    y:0,
+    width:1000,
+    height:218,
+  }
+  let start={
+    img:document.getElementById("Start"),
+    x:0,
+    y:0,
+    width:500,
+    height:125,
+  }
+  setInterval(MenuPos,1)
+  function MenuPos(){
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    title.x=(windowWidth/2)-(title.width/2)
+    title.y=(windowHeight/2)-(title.height/2)
+title.img.style.left=title.x+"px"
+title.img.style.top=title.y-150+"px"
+
+start.x=(windowWidth/2)-(start.width/2)
+start.y=(windowHeight/2)-(start.height/4)
+start.img.style.left=start.x+"px"
+start.img.style.top=start.y+50+"px"
+  }
  function Link(){
   location.href="MrDarouse.html";
  }

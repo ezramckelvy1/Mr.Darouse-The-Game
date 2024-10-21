@@ -67,6 +67,7 @@
       <img id="slimeSprite" hidden src="Slime_Sprite.png">
       <img id="snailSprite" hidden src="Snail_Sprite.png">
       <img id="eyeSprite" hidden src="Mummy_Eye_Sprite.png">
+      <img id="hornetSprite" hidden src="Hornet_Sprite.png">
    </canvas>
 </body>
 <script>
@@ -95,7 +96,7 @@
       sheight: 144,
       width: 93,
       height: 144,
-      health: 4,
+      health: 5,
       sprite: document.getElementById("playerSprite"),
       way: 2,
       start: false,
@@ -117,10 +118,10 @@
    }
    //ui vars//
    let healthPoint = {
-      x: [windowWidth - 100, windowWidth - 200, windowWidth - 300, windowWidth - 400],
+      x: [0, 100, 200, 300, 400],
       y: 0,
       sx: 0,
-      sy: [0, 0, 0, 0],
+      sy: [0, 0, 0, 0, 0],
       height: 100,
       width: 100,
       swidth: 100,
@@ -128,7 +129,7 @@
       sprite: document.getElementById("healthPoints"),
    }
    let Ammo = {
-      x: [windowWidth - 50, windowWidth - 105, windowWidth - 160, windowWidth - 215, windowWidth - 270, windowWidth - 325, windowWidth - 380, windowWidth - 435, windowWidth - 490, windowWidth - 545,],
+      x: [0, 50, 105, 160, 215, 270, 325, 380, 435, 490,],
       y: 110,
       sx: 0,
       sy: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -224,7 +225,7 @@
             swidth: 50,
             sheight: 28,
             way: 1,
-            speed:3,
+            speed: 3,
             sprite: document.getElementById("slimeSprite"),
             alive: true,
             damage: 1,
@@ -250,7 +251,7 @@
             speed: 2,
             sprite: document.getElementById("snailSprite"),
             alive: true,
-            damage: 4,
+            damage: 5,
             fly: false,
             spawn: false,
 
@@ -283,21 +284,21 @@
          enemy = {
             x: Math.floor(Math.random() * windowWidth - 50) + 1,
             y: Math.floor(Math.random() * windowHeight - 28) + 1,
-            width: 50,
-            height: 28,
+            width: 61,
+            height: 55,
             health: 5,
             sx: 0,
             sy: 0,
-            collumn: 8,
+            collumn: 12,
             row: 4,
-            swidth: 50,
-            sheight: 28,
+            swidth: 61,
+            sheight: 55,
             way: 1,
-            speed: 1,
-            sprite: document.getElementById("slimeSprite"),
+            speed: 5,
+            sprite: document.getElementById("hornetSprite"),
             alive: true,
-            damage: 1,
-            fly: false,
+            damage: 3,
+            fly: true,
             spawn: false,
          }
       }
@@ -337,16 +338,16 @@
                stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
                enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
                enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
-            }else
-            if (player.x + player.width >= enemyList[i].x &&
-               player.x <= enemyList[i] + enemyList[i].width &&
-               player.y + player.height >= enemyList[i].y &&
-               player.y <= enemyList[i].y + enemyList[i].height) {
-               stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
-               enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
-               enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
-            }
-            else{enemyList[i].spawn = true}
+            } else
+               if (player.x + player.width >= enemyList[i].x &&
+                  player.x <= enemyList[i] + enemyList[i].width &&
+                  player.y + player.height >= enemyList[i].y &&
+                  player.y <= enemyList[i].y + enemyList[i].height) {
+                  stx.clearRect(enemyList[i].x - 5, enemyList[i].y - 5, enemyList[i].width + 5, enemyList[i].height + 5)
+                  enemyList[i].x = Math.floor(Math.random() * windowWidth - enemyList[i].width) + 1
+                  enemyList[i].y = Math.floor(Math.random() * windowHeight - enemyList[i].height) + 1
+               }
+               else { enemyList[i].spawn = true }
          }
       }
    }
@@ -464,47 +465,51 @@
    function playerMove() {
       ptx.clearRect(0, 0, 3000, 3000)
       if (key.d === true) {
-         if(player.way!=3){
-            player.sx=0}
+         if (player.way != 3) {
+            player.sx = 0
+         }
          player.x = player.x + player.speed
          player.way = 3
-         player.sy=432
-         player.sx=player.sx+93
-         if(player.sx>744){
-            player.sx=0
+         player.sy = 432
+         player.sx = player.sx + 93
+         if (player.sx > 744) {
+            player.sx = 0
          }
       }
-      else if (key.a === true) {  
-         if(player.way!=1){
-            player.sx=0}
+      else if (key.a === true) {
+         if (player.way != 1) {
+            player.sx = 0
+         }
          player.x = player.x - player.speed
          player.way = 1
-         player.sy=144
-         player.sx=player.sx+93
-         if(player.sx>744){
-            player.sx=0
+         player.sy = 144
+         player.sx = player.sx + 93
+         if (player.sx > 744) {
+            player.sx = 0
          }
       }
       else if (key.s === true) {
-         if(player.way!=2){
-            player.sx=0}
+         if (player.way != 2) {
+            player.sx = 0
+         }
          player.y = player.y + player.speed
          player.way = 2
-         player.sy=288
-         player.sx=player.sx+93
-         if(player.sx>744){
-            player.sx=0
+         player.sy = 288
+         player.sx = player.sx + 93
+         if (player.sx > 744) {
+            player.sx = 0
          }
       }
       else if (key.w === true) {
-         if(player.way!=4){
-            player.sx=0}
+         if (player.way != 4) {
+            player.sx = 0
+         }
          player.way = 4
          player.y = player.y - player.speed
-         player.sy=0
-         player.sx=player.sx+93
-         if(player.sx>744){
-            player.sx=0
+         player.sy = 0
+         player.sx = player.sx + 93
+         if (player.sx > 744) {
+            player.sx = 0
          }
       }
       ptx.drawImage(player.sprite, player.sx, player.sy, player.swidth, player.sheight, player.x, player.y, player.width, player.height)
@@ -530,7 +535,7 @@
    }
    function enemyMove() {
       for (let i = 0; i <= enemyList.length - 1; i++) {
-         stx.clearRect(enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height+5)
+         stx.clearRect(enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height + 5)
          enemyList[i].sx = enemyList[i].sx + enemyList[i].width
          if (enemyList[i].sx === enemyList[i].collumn * enemyList[i].width) {
             enemyList[i].sx = 0
@@ -605,26 +610,34 @@
                if (player.way === 4) {
                   player.health = player.health - enemyList[i].damage
                   player.y = player.y + 100
+               } if (player.way === 5) {
+                  player.health = player.health - enemyList[i].damage
+                  player.y = player.y + 100
                }
+
                if (player.health < 1) {
-                  healthPoint.sy[3] = 100
+                  healthPoint.sy[0] = 100
                   location.href = "index.html"
                }
                if (player.health < 2) {
-                  healthPoint.sy[2] = 100
-               }
-               if (player.health < 3) {
                   healthPoint.sy[1] = 100
                }
-               if (player.health < 4) {
-                  healthPoint.sy[0] = 100
+               if (player.health < 3) {
+                  healthPoint.sy[2] = 100
                }
-              playerMove()
+               if (player.health < 4) {
+                  healthPoint.sy[3] = 100
+               }
+               if (player.health < 5) {
+                  healthPoint.sy[4] = 100
+
+               }
+               playerMove()
             }
          }
 
       }
-      for (let i = 0; i <= 4; i++) {
+      for (let i = 0; i <= 5; i++) {
          utx.clearRect(healthPoint.x[i], healthPoint.y, healthPoint.width, healthPoint.height)
          utx.drawImage(healthPoint.sprite, healthPoint.sx, healthPoint.sy[i], healthPoint.swidth, healthPoint.sheight, healthPoint.x[i], healthPoint.y, healthPoint.width, healthPoint.height,)
       }
@@ -655,8 +668,8 @@
       if (player.ammo <= 10) {
          player.ammo = player.ammo + 1
       }
-      else{
-         player.ammo=10
+      else {
+         player.ammo = 10
       }
    }
    function bulletMove() {
@@ -797,63 +810,63 @@
    function AmmoUi() {
       if (player.ammo < 1) {
 
-         Ammo.sy[9] = 50
+         Ammo.sy[0] = 50
       } else {
-         Ammo.sy[9] = 0
+         Ammo.sy[0] = 0
       }
       if (player.ammo < 2) {
-         Ammo.sy[8] = 50
-      }
-      else {
-         Ammo.sy[8] = 0
-      }
-      if (player.ammo < 3) {
-         Ammo.sy[7] = 50
-      }
-      else {
-         Ammo.sy[7] = 0
-      }
-      if (player.ammo < 4) {
-         Ammo.sy[6] = 50
-      }
-      else {
-         Ammo.sy[6] = 0
-      }
-      if (player.ammo < 5) {
-         Ammo.sy[5] = 50
-      }
-      else {
-         Ammo.sy[5] = 0
-      }
-      if (player.ammo < 6) {
-         Ammo.sy[4] = 50
-      }
-      else {
-         Ammo.sy[4] = 0
-      }
-      if (player.ammo < 7) {
-         Ammo.sy[3] = 50
-      }
-      else {
-         Ammo.sy[3] = 0
-      }
-      if (player.ammo < 8) {
-         Ammo.sy[2] = 50
-      }
-      else {
-         Ammo.sy[2] = 0
-      }
-      if (player.ammo < 9) {
          Ammo.sy[1] = 50
       }
       else {
          Ammo.sy[1] = 0
       }
-      if (player.ammo < 10) {
-         Ammo.sy[0] = 50
+      if (player.ammo < 3) {
+         Ammo.sy[2] = 50
       }
       else {
-         Ammo.sy[0] = 0
+         Ammo.sy[2] = 0
+      }
+      if (player.ammo < 4) {
+         Ammo.sy[3] = 50
+      }
+      else {
+         Ammo.sy[3] = 0
+      }
+      if (player.ammo < 5) {
+         Ammo.sy[4] = 50
+      }
+      else {
+         Ammo.sy[4] = 0
+      }
+      if (player.ammo < 6) {
+         Ammo.sy[5] = 50
+      }
+      else {
+         Ammo.sy[5] = 0
+      }
+      if (player.ammo < 7) {
+         Ammo.sy[6] = 50
+      }
+      else {
+         Ammo.sy[6] = 0
+      }
+      if (player.ammo < 8) {
+         Ammo.sy[7] = 50
+      }
+      else {
+         Ammo.sy[7] = 0
+      }
+      if (player.ammo < 9) {
+         Ammo.sy[8] = 50
+      }
+      else {
+         Ammo.sy[8] = 0
+      }
+      if (player.ammo < 10) {
+         Ammo.sy[9] = 50
+      }
+      else {
+         Ammo.sy[9] = 0
       }
       for (let i = 0; i < Ammo.sy.length; i++) {
          utx.clearRect(Ammo.x[i], Ammo.y, Ammo.width, Ammo.height)
