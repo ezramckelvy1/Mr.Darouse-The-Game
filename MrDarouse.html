@@ -73,10 +73,24 @@
          top: -70px;
          left: 500px;
       }
+
+      #unmute-button {
+         z-index: 10;
+         right: 0px;
+         position: absolute;
+      }
    </style>
 </head>
 
 <body>
+   <img id="unmute-button" src="GameFiles/Textures/Ui/Muted.png">
+   <audio id="levelMusic" src="GameFiles/Sounds/levelMusic.mp3" loop></audio>
+   <audio id="slimeDeath" src="GameFiles/Sounds/SlimeDeath.mp3"></audio>
+   <audio id="EyeDeath" src="GameFiles/Sounds/EyeDeath.wav"></audio>
+   <audio id="snailDeath" src="GameFiles/Sounds/SnailDeath.mp3"></audio>
+   <audio id="hornetDeath" src="GameFiles/Sounds/HornetDeath.mp3"></audio>
+   <audio id="bossMusic" src="GameFiles/Sounds/bossBattleMusic.mp3" loop></audio>
+   <audio id="bulletSound" src="GameFiles/Sounds/bullet.wav"></audio>
    <title>Mr.Darouse The Game</title>
    <canvas id="bulletcanvas">
       <img id="bullet" hidden src="GameFiles/Textures/Bullets/Orb.png">
@@ -102,10 +116,20 @@
       <img id="eyeSprite" hidden src="GameFiles/Sprites/Enemies/Mummy_Eye_Sprite.png">
       <img id="hornetSprite" hidden src="GameFiles/Sprites/Enemies/Hornet_Sprite.png">
    </canvas>
+   <canvas id="Bosscanvas">
+      <img id="Evil_Darouse" hidden src="GameFiles/Sprites/Bosses/Evil_Darouse_Sprite.png">
+   </canvas>
 </body>
 <script>
    //variabels
+   //sound varibles//
+   const bossMusic = document.getElementById("bossMusic")
+   const levelMusic = document.getElementById("levelMusic")
+
    //screen vars
+   const unmuteButton = document.getElementById("unmute-button")
+
+   let scene = "level"
    let background = []
    let windowWidth = window.innerWidth;
    let windowHeight = window.innerHeight;
@@ -191,6 +215,7 @@
       sheight: 32,
       sprite: document.getElementById("bullet"),
       way: [],
+      sound: document.getElementById("bulletSound")
    }
    //enemy vars//
    let enemycount = 0
@@ -200,6 +225,8 @@
    //canvas vars//
    let b = document.getElementById("bulletcanvas");
    let btx = b.getContext("2d");
+   let f = document.getElementById("Bosscanvas");
+   let ftx = b.getContext("2d");
    let u = document.getElementById("playerUi");
    let utx = u.getContext("2d");
    let p = document.getElementById("playercanvas");
@@ -208,6 +235,27 @@
    let stx = s.getContext("2d");
    let h = document.getElementById("holecanvas");
    let htx = h.getContext("2d");
+   //boss objects//
+   let DarkDarouse = {
+      x: windowSpawnx - playerSpawnx,
+      y: windowSpawny - playerSpawny,
+      sx: 0,
+      sy: 288,
+      swidth: 93,
+      sheight: 144,
+      width: 93,
+      height: 144,
+      health: 20,
+      sprite: document.getElementById("Evil_Darouse"),
+      way: 2,
+      attack: 1,
+      alive: false,
+      damage:1,
+      speed:5,
+      FrameSpeed:50,
+
+   }
+
    //keyevents vars//
    let key = {
       a: false,
@@ -218,6 +266,7 @@
 
    }
    //Events//
+   document.getElementById("unmute-button").addEventListener("click", gameSounds)
    document.addEventListener("keydown", keyPress)
    document.addEventListener("keyup", keyUp)
    //canvas size Attributes//
@@ -230,7 +279,7 @@
    b.setAttribute("width", windowWidth + "px")
    b.setAttribute("height", windowHeight + "px")
    //function starts//
-   requestAnimationFrame(backgroundCreate)
+   requestAnimationFrame(levelChange)
    setInterval(playerMove, 50)
    requestAnimationFrame(AmmoUi)
    requestAnimationFrame(holeObstacle)
@@ -284,6 +333,21 @@
 
    }
    //scene functions//
+   function gameSounds() {
+
+      unmuteButton.src = "GameFiles/Textures/Ui/Unmuted.png";
+
+      if (scene === "level") {
+         bossMusic.pause()
+         levelMusic.play()
+
+      } else if (scene === "boss") {
+         levelMusic.pause()
+         bossMusic.volume = .5
+         bossMusic.play()
+      }
+      requestAnimationFrame(gameSounds)
+   }
    function backgroundCreate() {
       stx.clearRect(0, 0, 2000, 2000)
       let backnum = Math.floor(Math.random() * 4) + 1
@@ -302,25 +366,38 @@
       }
 
       document.body.style.backgroundImage = "url(" + background[0] + ")"
-    
-      levelChange()
+
+
    }
-   function levelChange(){
-      enemyspawn()
-      lightPosition()
-      holeSpawn()
-      holeObstacle()
-      player.ammo = 10
-      enemyWay()
+   function levelChange() {
+      if (player.score < 100 || player.score > 140) {
+         player.ammo = 10
+         lightPosition()
+         holeSpawn()
+         holeObstacle()
+         backgroundCreate()
+         scene = "level"
+         enemyWay()
+         enemyspawn()
+      } else {
+         player.ammo = 10
+         lightPosition()
+         holeSpawn()
+         holeObstacle()
+         backgroundCreate()
+         scene = "boss"
+         DarkDarouse.alive=true
+         bossSpawn()
+      }
    }
-   function holeSpawn(){
+   function holeSpawn() {
       hole.x = Math.floor(Math.random() * windowWidth - 180)
       hole.y = Math.floor(Math.random() * windowHeight - 180)
       if (player.x + player.width + 40 >= hole.x &&
          player.x - 40 <= hole.x + hole.width &&
          player.y + player.height + 40 >= hole.y &&
          player.y - 40 <= hole.y + hole.height) {
-     requestAnimationFrame(holeSpawn)
+         requestAnimationFrame(holeSpawn)
       }
    }
    function holeObstacle() {
@@ -411,7 +488,7 @@
          light[i].style.left = lightx[i] + "px"
          light[i].style.top = lighty[i] + "px"
       }
-    
+
    }
    function ScreenSize() {
       if (windowWidth != ScreenChange) {
@@ -445,7 +522,7 @@
             y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 50,
             height: 28,
-            health: 5,
+            health: 1,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -460,6 +537,8 @@
             fly: false,
             spawn: false,
             points: 10,
+            sound: document.getElementById("slimeDeath"),
+            volume: 0.2,
 
          }
       }
@@ -469,7 +548,7 @@
             y: Math.floor(Math.random() * windowHeight - 67) + 1,
             width: 64,
             height: 67,
-            health: 10,
+            health: 1,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -484,7 +563,8 @@
             fly: false,
             spawn: false,
             points: 10,
-
+            sound: document.getElementById("snailDeath"),
+            volume: 0.1,
          }
       }
       if (enemynum === 3) {
@@ -493,7 +573,7 @@
             y: Math.floor(Math.random() * windowHeight - 73) + 1,
             width: 54,
             height: 73,
-            health: 15,
+            health: 1,
             sx: 0,
             sy: 0,
             collumn: 8,
@@ -508,7 +588,8 @@
             fly: true,
             spawn: false,
             points: 10,
-
+            sound: document.getElementById("EyeDeath"),
+            volume: 0.1,
          }
       }
       if (enemynum === 4) {
@@ -517,7 +598,7 @@
             y: Math.floor(Math.random() * windowHeight - 28) + 1,
             width: 61,
             height: 55,
-            health: 5,
+            health: 1,
             sx: 0,
             sy: 0,
             collumn: 12,
@@ -532,6 +613,8 @@
             fly: true,
             spawn: false,
             points: 10,
+            sound: document.getElementById("hornetDeath"),
+            volume: 0.1,
          }
       }
       return (enemy)
@@ -547,7 +630,7 @@
       return enemyList; // If you want to return the list of enemies
    }
    function enemyInsideSpawn() {
-      let allspawn=0
+      let allspawn = 0
       for (let i = 0; i < enemyList.length; i++) {
          if (!enemyList[i].spawn) {
             if (enemyList[i].x + enemyList[i].width >= hole.x - 5 &&
@@ -568,16 +651,16 @@
                }
                else {
                   enemyList[i].spawn = true
-                  allspawn=allspawn+1
+                  allspawn = allspawn + 1
                }
-               
+
          }
-        
+
       }
-      if(allspawn===enemyList.length){
-                  player.invincible=false
-              
-               }
+      if (allspawn === enemyList.length) {
+         player.invincible = false
+
+      }
       requestAnimationFrame(enemyInsideSpawn)
    }
    function enemyWay() {
@@ -585,29 +668,32 @@
          enemyList[i].way = Math.floor(Math.random() * 4) + 1
       }
    }
-  function enemyLifeCheck(i){
-   if (enemyList[i].health < 1) {
-            if (enemyList[i].alive) {
-               player.score = player.score + enemyList[i].points
-               document.getElementById("score").textContent = player.score
-            }
-            
-            enemyList[i].alive = false
-            
+   function enemyLifeCheck(i) {
+      if (enemyList[i].health < 1) {
+         if (enemyList[i].alive) {
+            enemyList[i].sound.volume = enemyList[i].volume
+            enemyList[i].sound.play()
+            player.score = player.score + enemyList[i].points
+
+            document.getElementById("score").textContent = player.score
          }
-  }
-   function enemySpriteCreation(){
+
+         enemyList[i].alive = false
+
+      }
+   }
+   function enemySpriteCreation() {
       for (let i = 0; i <= enemyList.length - 1; i++) {
-      stx.clearRect(enemyList[i].x-10, enemyList[i].y-10, enemyList[i].width+20, enemyList[i].height+20)
-      enemyLifeCheck(i)
+         stx.clearRect(enemyList[i].x - 10, enemyList[i].y - 10, enemyList[i].width + 20, enemyList[i].height + 20)
+         enemyLifeCheck(i)
          if (enemyList[i].alive) {
             stx.drawImage(enemyList[i].sprite, enemyList[i].sx, enemyList[i].sy, enemyList[i].swidth, enemyList[i].sheight, enemyList[i].x, enemyList[i].y, enemyList[i].width, enemyList[i].height)
          }
+      }
    }
-}
    function enemyMove() {
       for (let i = 0; i <= enemyList.length - 1; i++) {
-         
+
          enemyList[i].sx = enemyList[i].sx + enemyList[i].width
          if (enemyList[i].sx === enemyList[i].collumn * enemyList[i].width) {
             enemyList[i].sx = 0
@@ -640,7 +726,7 @@
                enemyList[i].x = enemyList[i].speed
             }
          }
-         
+
          enemySpriteCreation()
       }
       allDead()
@@ -654,18 +740,19 @@
          }
 
       }
-      if (dead === enemyList.length) {
-         backgroundCreate()
-      }
 
+      if (dead === enemyList.length && !DarkDarouse.alive) {
+         levelChange()
+      }
    }
+
    //player functions//
- function playerSpriteCreation(){
+   function playerSpriteCreation() {
       ptx.clearRect(0, 0, 3000, 3000)
       ptx.drawImage(player.sprite, player.sx, player.sy, player.swidth, player.sheight, player.x, player.y, player.width, player.height)
- }
+   }
    function playerMove() {
-   
+
       if (key.d) {
          if (player.way != 3) {
             player.sx = 0
@@ -741,9 +828,9 @@
                player.x <= enemyList[i].x + enemyList[i].width &&
                player.y + player.height >= enemyList[i].y &&
                player.y <= enemyList[i].y + enemyList[i].height) {
-                  PlayerGetsDamaged(i)
-                  checkPlayerHealth()
-                  playerSpriteCreation()
+               PlayerGetsDamagedByEnemy(i)
+               checkPlayerHealth()
+               playerSpriteCreation()
             }
          }
 
@@ -754,50 +841,50 @@
       }
       requestAnimationFrame(playerEnemyCollision)
    }
-   function PlayerGetsDamaged(i) {
+   function PlayerGetsDamagedByEnemy(i) {
       if (!player.invincible) {
-      if (player.way === 1) {
-         //a
-         player.health = player.health - enemyList[i].damage
-         player.x = player.x + 100
-      }//s
-      if (player.way === 2) {
-         player.health = player.health - enemyList[i].damage
-         player.y = player.y - 100
-      }//d
-      if (player.way === 3) {
-         player.health = player.health - enemyList[i].damage
-         player.x = player.x - 100
-      }//w
-      if (player.way === 4) {
-         player.health = player.health - enemyList[i].damage
-         player.y = player.y + 100
-      } if (player.way === 5) {
-         player.health = player.health - enemyList[i].damage
-         player.y = player.y + 100
+         if (player.way === 1) {
+            //a
+            player.health = player.health - enemyList[i].damage
+            player.x = player.x + 100
+         }//s
+         if (player.way === 2) {
+            player.health = player.health - enemyList[i].damage
+            player.y = player.y - 100
+         }//d
+         if (player.way === 3) {
+            player.health = player.health - enemyList[i].damage
+            player.x = player.x - 100
+         }//w
+         if (player.way === 4) {
+            player.health = player.health - enemyList[i].damage
+            player.y = player.y + 100
+         } if (player.way === 5) {
+            player.health = player.health - enemyList[i].damage
+            player.y = player.y + 100
+         }
       }
    }
-}
- function checkPlayerHealth(){
-   if (player.health < 1) {
-                     healthPoint.sy[0] = 100
-                     location.href = "index.html"
-                  }
-                  if (player.health < 2) {
-                     healthPoint.sy[1] = 100
-                  }
-                  if (player.health < 3) {
-                     healthPoint.sy[2] = 100
-                  }
-                  if (player.health < 4) {
-                     healthPoint.sy[3] = 100
-                  }
-                  if (player.health < 5) {
-                     healthPoint.sy[4] = 100
+   function checkPlayerHealth() {
+      if (player.health < 1) {
+         healthPoint.sy[0] = 100
+         location.href = "index.html"
+      }
+      if (player.health < 2) {
+         healthPoint.sy[1] = 100
+      }
+      if (player.health < 3) {
+         healthPoint.sy[2] = 100
+      }
+      if (player.health < 4) {
+         healthPoint.sy[3] = 100
+      }
+      if (player.health < 5) {
+         healthPoint.sy[4] = 100
 
-                  }
- }
-//weapon functions//
+      }
+   }
+   //weapon functions//
    function CheckAmmoLevel() {
       if (player.ammo < 1) {
 
@@ -867,6 +954,10 @@
                player.ammo = player.ammo - 1
                bullet.way.push(player.way)
                clearInterval(bull)
+               bullet.sound.pause()
+               bullet.sound.currentTime = 0
+               bullet.sound.volume = .05
+               bullet.sound.play()
                bullet.x.push(player.x + 30)
                bullet.y.push(player.y + 72)
                bulletnum.push(bullets)
@@ -907,6 +998,7 @@
          }
          checkIfBulletHitsEnemy(i)
          checkIfBulletOffScreen(i)
+         checkIfBulletHitsBoss(i)
          btx.drawImage(bullet.sprite, 0, 0, 32, 32, bullet.x[i], bullet.y[i], 32, 32)
       }
    }
@@ -926,6 +1018,23 @@
          }
       }
    }
+   function checkIfBulletHitsBoss(i) {
+      
+         if (bullet.x[i] + bullet.width >= DarkDarouse.x &&
+            bullet.x[i] <= DarkDarouse.x + DarkDarouse.width &&
+            bullet.y[i] + bullet.height >= DarkDarouse.y &&
+            bullet.y[i] <= DarkDarouse.y + DarkDarouse.height) {
+            if (DarkDarouse.alive) {
+               DarkDarouse.health = DarkDarouse.health - 1
+               bullet.x.splice(i, 1)
+               bullet.y.splice(i, 1)
+               bullet.way.splice(i, 1)
+               bulletnum.splice(i, 1)
+            }
+           
+         }
+      }
+   
    function checkIfBulletOffScreen(i) {
       if (bullet.x[i] >= windowWidth - bullet.width) {
          bullet.x.splice(i, 1)
@@ -950,6 +1059,110 @@
          bullet.way.splice(i, 1)
          bulletnum.splice(i, 1)
       }
+   }
+   //boss function// 
+   function bossSpawn() {
+      ftx.clearRect(0, 0, 3000, 3000)
+      if (DarkDarouse.alive) {
+         checkBossHealth() 
+      bossFollow()
+      ftx.drawImage(DarkDarouse.sprite, DarkDarouse.sx, DarkDarouse.sy, DarkDarouse.swidth, DarkDarouse.sheight, DarkDarouse.x, DarkDarouse.y, DarkDarouse.width, DarkDarouse.height)
+      setTimeout( function(){requestAnimationFrame(bossSpawn)},DarkDarouse.FrameSpeed)
+   }
+   }
+function bossFollow(){
+if(player.x>DarkDarouse.x){
+   DarkDarouse.way=4
+   DarkDarouse.x=DarkDarouse.x+DarkDarouse.speed
+}else if(player.x<DarkDarouse.x){
+   DarkDarouse.way=2
+   DarkDarouse.x=DarkDarouse.x-DarkDarouse.speed
+}else if(player.y>DarkDarouse.y){
+   DarkDarouse.way=3
+   DarkDarouse.y=DarkDarouse.y+DarkDarouse.speed
+}else if(player.y<DarkDarouse.y){
+   DarkDarouse.way=1
+   DarkDarouse.y=DarkDarouse.y-DarkDarouse.speed
+}
+
+bossFrames()
+if(DarkDarouse.alive){
+
+}
+}
+function bossFrames(){
+  if(DarkDarouse.way===1){
+   DarkDarouse.sy=0
+   DarkDarouse.sx=DarkDarouse.sx+93
+   if (DarkDarouse.sx > 744) {
+      DarkDarouse.sx = 0
+         }
+}
+  if(DarkDarouse.way===2){
+   DarkDarouse.sy=144
+}
+
+if(DarkDarouse.way===3){
+   DarkDarouse.sy=288
+ 
+}
+
+if(DarkDarouse.way===4){
+   DarkDarouse.sy=432
+}
+
+  bossLegs()
+  bossCollision()
+} 
+function bossLegs(){
+    DarkDarouse.sx=DarkDarouse.sx+93
+   if (DarkDarouse.sx > 744) {
+      DarkDarouse.sx = 0
+         }
+}
+function bossCollision(){
+   if(player.x + player.width >= DarkDarouse.x &&
+               player.x <= DarkDarouse.x + DarkDarouse.width &&
+               player.y + player.height >= DarkDarouse.y &&
+               player.y <= DarkDarouse.y + DarkDarouse.height){
+                  PlayerGetsDamagedByBoss()
+                  checkPlayerHealth()
+                  playerSpriteCreation()
+}
+}
+function PlayerGetsDamagedByBoss() {
+      if (!player.invincible) {
+         if (player.way === 1) {
+            //a
+            player.health = player.health - DarkDarouse.damage
+            player.x = player.x + 100
+         }//s
+         if (player.way === 2) {
+            player.health = player.health - DarkDarouse.damage
+            player.y = player.y - 100
+         }//d
+         if (player.way === 3) {
+            player.health = player.health - DarkDarouse.damage
+            player.x = player.x - 100
+         }//w
+         if (player.way === 4) {
+            player.health = player.health - DarkDarouse.damage
+            player.y = player.y + 100
+         } if (player.way === 5) {
+            player.health = player.health - DarkDarouse.damage
+            player.y = player.y + 100
+         }
+      }
+   }
+   function checkBossHealth(){
+      if(DarkDarouse.health===10){
+         DarkDarouse.FrameSpeed=25
+      }
+      if (DarkDarouse.health===0){
+               player.score=player.score+40
+               playerScoreCreation()
+               DarkDarouse.alive=false
+            }
    }
 </script>
 

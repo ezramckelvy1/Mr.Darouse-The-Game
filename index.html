@@ -38,12 +38,17 @@
 </head>
 
 <body>
+  <img id="unmute-button" src="GameFiles/Textures/Ui/Muted.png">
+  <audio id="menuMusic" src="GameFiles/Sounds/MenuSong.mp3" ></audio>
   <img  style="cursor:url('GameFiles/Textures/Ui/Pointer_Cursor.png'),auto" id="Title" src="GameFiles/Textures/Ui/Game_title.png">
 
   <img style="cursor:url('GameFiles/Textures/Ui/Finger_Cursor.png'),auto" onclick="Link()" id="Start" src="GameFiles/Textures/Ui/Start_Button.png">
 </div>
 </body>
 <script>
+   const unmuteButton = document.getElementById('unmute-button');
+   unmuteButton.addEventListener('click',playSong);
+   const song = document.getElementById('menuMusic');
   let title={
     img:document.getElementById("Title"),
     x:0,
@@ -75,6 +80,12 @@ start.img.style.top=start.y+50+"px"
  function Link(){
   location.href="MrDarouse.html";
  }
+ function playSong(){
+  unmuteButton.src="GameFiles/Textures/Ui/Unmuted.png"
+  song.volume=.5
+  song.play();
+ }
+
 </script>
 
 </html>
